@@ -1,1 +1,1 @@
-# fp-2026.1-projeto-grupo1
+# cyber-fp-2026.1-projeto-grupo1
