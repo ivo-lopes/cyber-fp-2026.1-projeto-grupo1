@@ -1,4 +1,4 @@
-from organiza_festa.app.validacoes import validar_texto_obrigatorio, validar_opcao_menu
+from app.validacoes import validar_texto_obrigatorio, validar_opcao_menu
 
 def cadastrar_evento():
     while True:
