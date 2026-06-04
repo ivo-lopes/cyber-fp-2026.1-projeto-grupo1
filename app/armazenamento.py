@@ -60,6 +60,28 @@ def ler_csv(caminho):
     return registros
 
 
+def escrever_csv(caminho, cabecalho, registros):
+    # Escreve o cabecalho e depois grava os registros no arquivo.
+    try:
+        arquivo = open(caminho, "w")
+        arquivo.write(";".join(cabecalho) + "\n")
+
+        for registro in registros:
+            valores = []
+
+            for campo in cabecalho:
+                if campo in registro:
+                    valores.append(str(registro[campo]))
+                else:
+                    valores.append("")
+
+            arquivo.write(";".join(valores) + "\n")
+
+        arquivo.close()
+    except:
+        print("Erro ao escrever no arquivo.")
+
+
 def carregar_dados():
     # Esta funcao vai ser usada depois para carregar os dados.
     return []
