@@ -23,6 +23,43 @@ def inicializar_arquivos():
         print("Erro ao preparar os arquivos de dados.")
 
 
+def ler_csv(caminho):
+    # Le o arquivo e transforma cada linha em um dicionario simples.
+    registros = []
+
+    try:
+        if not os.path.exists(caminho):
+            return registros
+
+        arquivo = open(caminho, "r")
+        linhas = arquivo.readlines()
+        arquivo.close()
+
+        if len(linhas) == 0:
+            return registros
+
+        cabecalho = linhas[0].strip().split(";")
+
+        for i in range(1, len(linhas)):
+            linha = linhas[i].strip()
+
+            if linha != "":
+                valores = linha.split(";")
+                registro = {}
+
+                for j in range(len(cabecalho)):
+                    if j < len(valores):
+                        registro[cabecalho[j]] = valores[j]
+                    else:
+                        registro[cabecalho[j]] = ""
+
+                registros.append(registro)
+    except:
+        print("Erro ao ler o arquivo.")
+
+    return registros
+
+
 def carregar_dados():
     # Esta funcao vai ser usada depois para carregar os dados.
     return []
