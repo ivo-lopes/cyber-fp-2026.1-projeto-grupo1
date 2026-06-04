@@ -82,6 +82,23 @@ def escrever_csv(caminho, cabecalho, registros):
         print("Erro ao escrever no arquivo.")
 
 
+def obter_proximo_id(registros):
+    # Procura o maior id ja usado e soma 1.
+    maior_id = 0
+
+    for registro in registros:
+        if "id" in registro:
+            try:
+                id_atual = int(registro["id"])
+
+                if id_atual > maior_id:
+                    maior_id = id_atual
+            except:
+                pass
+
+    return maior_id + 1
+
+
 def carregar_dados():
     # Esta funcao vai ser usada depois para carregar os dados.
     return []
