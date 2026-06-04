@@ -5,6 +5,7 @@ from app.validacoes import validar_data
 
 
 CAMINHO_EVENTOS = "data/eventos.csv"
+CAMINHO_TAREFAS = "data/tarefas.csv"
 CABECALHO_EVENTOS = [
     "id",
     "nome",
@@ -14,6 +15,17 @@ CABECALHO_EVENTOS = [
     "orcamento_inicial",
     "orcamento_disponivel",
     "num_convidados",
+    "criado_em",
+    "atualizado_em",
+]
+CABECALHO_TAREFAS = [
+    "id",
+    "evento_id",
+    "descricao",
+    "categoria",
+    "custo",
+    "status",
+    "prazo",
     "criado_em",
     "atualizado_em",
 ]
@@ -140,3 +152,56 @@ def editar_evento():
 
     escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
     print("\nEvento atualizado com sucesso.")
+
+
+def excluir_evento():
+    eventos = ler_csv(CAMINHO_EVENTOS)
+
+    if len(eventos) == 0:
+        print("\nNenhum evento cadastrado.")
+        return
+
+    evento_id = input("ID do evento: ").strip()
+    evento_encontrado = buscar_evento_por_id(evento_id)
+
+    if evento_encontrado == None:
+        print("\nEvento não encontrado.")
+        return
+
+    tarefas = ler_csv(CAMINHO_TAREFAS)
+    tarefas_vinculadas = []
+
+    for tarefa in tarefas:
+        if tarefa["evento_id"] == evento_id:
+            tarefas_vinculadas.append(tarefa)
+
+    if len(tarefas_vinculadas) > 0:
+        print("\nEste evento possui tarefas cadastradas.")
+        resposta = input("Deseja excluir o evento e todas as tarefas vinculadas? [s/n] ").strip().lower()
+
+        if resposta != "s":
+            print("\nExclusão cancelada.")
+            return
+
+        novas_tarefas = []
+
+        for tarefa in tarefas:
+            if tarefa["evento_id"] != evento_id:
+                novas_tarefas.append(tarefa)
+
+        escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, novas_tarefas)
+    else:
+        resposta = input("Deseja excluir este evento? [s/n] ").strip().lower()
+
+        if resposta != "s":
+            print("\nExclusão cancelada.")
+            return
+
+    novos_eventos = []
+
+    for evento in eventos:
+        if evento["id"] != evento_id:
+            novos_eventos.append(evento)
+
+    escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, novos_eventos)
+    print("\nEvento excluído com sucesso.")
