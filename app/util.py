@@ -6,8 +6,10 @@ def limpar_tela():
     # Limpa a tela de acordo com o sistema usado.
     if os.name == "nt":
         os.system("cls")
-    else:
+    elif "TERM" in os.environ:
         os.system("clear")
+    else:
+        print("\n" * 5)
 
 
 def calcular_dias_restantes(data_evento):

@@ -1,4 +1,5 @@
 from app.eventos import cadastrar_evento, editar_evento, excluir_evento, listar_eventos, visualizar_evento
+from app.util import limpar_tela
 from app.validacoes import validar_opcao
 
 
@@ -13,6 +14,7 @@ def mostrar_funcionalidade_pendente():
 
 def mostrar_menu():
     while True:
+        limpar_tela()
         print("========== ORGANIZA FESTA ==========")
         print()
         print("1. Gerenciar eventos")
@@ -24,6 +26,7 @@ def mostrar_menu():
         print()
 
         opcao = input("Escolha uma opção: ").strip()
+        limpar_tela()
 
         if not validar_opcao(opcao, ["0", "1", "2", "3", "4", "5"]):
             print("\nOpção inválida.")
@@ -40,6 +43,7 @@ def mostrar_menu():
 
 def mostrar_menu_eventos():
     while True:
+        limpar_tela()
         print("========== EVENTOS ==========")
         print()
         print("1. Cadastrar evento")
@@ -51,6 +55,7 @@ def mostrar_menu_eventos():
         print()
 
         opcao = input("Escolha uma opção: ").strip()
+        limpar_tela()
 
         if not validar_opcao(opcao, ["0", "1", "2", "3", "4", "5"]):
             print("\nOpção inválida.")
