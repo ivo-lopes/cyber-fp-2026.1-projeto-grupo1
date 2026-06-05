@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from app.armazenamento import ler_csv, escrever_csv, obter_proximo_id
-from app.validacoes import validar_data, validar_numero_positivo, validar_texto_obrigatorio
+from app.validacoes import validar_data, validar_numero_positivo, validar_texto_obrigatorio, formatar_moeda
 
 
 CAMINHO_EVENTOS = "data/eventos.csv"
@@ -90,11 +90,52 @@ def cadastrar_evento():
 
 
 def listar_eventos():
-    print("\nFuncionalidade ainda não implementada.")
+    eventos = ler_csv(CAMINHO_EVENTOS)
+
+    if len(eventos) == 0:
+        print("\nNenhum evento cadastrado.")
+        return
+
+    print("\n========== EVENTOS CADASTRADOS ==========")
+
+    for evento in eventos:
+        print("----------------------------------------")
+        print("ID:", evento["id"])
+        print("Nome:", evento["nome"])
+        print("Tipo:", evento["tipo"])
+        print("Data:", evento["data"])
+        print("Local:", evento["local"])
+
+    print("----------------------------------------")
 
 
 def visualizar_evento():
-    print("\nFuncionalidade ainda não implementada.")
+    eventos = ler_csv(CAMINHO_EVENTOS)
+
+    if len(eventos) == 0:
+        print("\nNenhum evento cadastrado.")
+        return
+
+    listar_eventos()
+
+    evento_id = input("\nDigite o ID do evento que deseja visualizar: ").strip()
+    evento = buscar_evento_por_id(evento_id)
+
+    if evento == None:
+        print("\nEvento não encontrado.")
+        return
+
+    print("\n========== DETALHES DO EVENTO ==========")
+    print("ID:", evento["id"])
+    print("Nome:", evento["nome"])
+    print("Tipo:", evento["tipo"])
+    print("Data:", evento["data"])
+    print("Local:", evento["local"])
+    print("Orçamento inicial:", formatar_moeda(evento["orcamento_inicial"]))
+    print("Orçamento disponível:", formatar_moeda(evento["orcamento_disponivel"]))
+    print("Número de convidados:", evento["num_convidados"])
+    print("Criado em:", evento["criado_em"])
+    print("Atualizado em:", evento["atualizado_em"])
 
 
 def buscar_evento_por_id(evento_id):
