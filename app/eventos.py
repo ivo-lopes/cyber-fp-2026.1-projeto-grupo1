@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from app.armazenamento import ler_csv, escrever_csv
-from app.validacoes import validar_data
+from app.armazenamento import ler_csv, escrever_csv, obter_proximo_id
+from app.validacoes import validar_data, validar_numero_positivo, validar_texto_obrigatorio
 
 
 CAMINHO_EVENTOS = "data/eventos.csv"
@@ -32,7 +32,61 @@ CABECALHO_TAREFAS = [
 
 
 def cadastrar_evento():
-    print("\nFuncionalidade ainda não implementada.")
+    while True:
+        nome = input("Nome do Evento: ").strip()
+        if validar_texto_obrigatorio(nome):
+            break
+
+    while True:
+        tipo = input("Tipo do Evento (Aniversário, Casamento, Reunião, etc): ").strip()
+        if validar_texto_obrigatorio(tipo):
+            break
+
+    while True:
+        data = input("Data do Evento (AAAA-MM-DD): ").strip()
+        if validar_texto_obrigatorio(data) and validar_data(data):
+            break
+        print("Data inválida. Use o formato AAAA-MM-DD.")
+
+    while True:
+        local = input("Local do Evento: ").strip()
+        if validar_texto_obrigatorio(local):
+            break
+
+    while True:
+        orcamento = input("Orçamento Inicial (R$): ").strip()
+        if validar_numero_positivo(orcamento):
+            break
+
+    while True:
+        convidados = input("Número de Convidados: ").strip()
+        try:
+            if int(convidados) > 0:
+                break
+            print("❌ Erro: O número deve ser positivo. Tente novamente.")
+        except ValueError:
+            print("❌ Erro: Entrada inválida! Por favor, insira um número inteiro válido.")
+
+    eventos = ler_csv(CAMINHO_EVENTOS)
+    data_atual = datetime.now().strftime("%Y-%m-%d")
+
+    novo_evento = {
+        "id": str(obter_proximo_id(eventos)),
+        "nome": nome,
+        "tipo": tipo,
+        "data": data,
+        "local": local,
+        "orcamento_inicial": orcamento,
+        "orcamento_disponivel": orcamento,
+        "num_convidados": convidados,
+        "criado_em": data_atual,
+        "atualizado_em": data_atual,
+    }
+
+    eventos.append(novo_evento)
+    escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
+    print(f"\n✔️ Pronto! Os dados de '{nome}' foram validados e cadastrados.")
+    return novo_evento
 
 
 def listar_eventos():
