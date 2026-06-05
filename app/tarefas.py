@@ -17,6 +17,17 @@ CABECALHO_EVENTOS = [
     "criado_em",
     "atualizado_em",
 ]
+CABECALHO_TAREFAS = [
+    "id",
+    "evento_id",
+    "descricao",
+    "categoria",
+    "custo",
+    "status",
+    "prazo",
+    "criado_em",
+    "atualizado_em",
+]
 
 
 def cadastrar_tarefa():
@@ -73,4 +84,36 @@ def atualizar_orcamento_evento(evento_id):
 
 
 def excluir_tarefa():
-    pass
+    tarefas = ler_csv(CAMINHO_TAREFAS)
+
+    if len(tarefas) == 0:
+        print("\nNenhuma tarefa cadastrada.")
+        return
+
+    tarefa_id = input("ID da tarefa: ").strip()
+    tarefa_encontrada = None
+
+    for tarefa in tarefas:
+        if tarefa["id"] == tarefa_id:
+            tarefa_encontrada = tarefa
+
+    if tarefa_encontrada == None:
+        print("\nTarefa não encontrada.")
+        return
+
+    resposta = input("Deseja realmente excluir esta tarefa? [s/n] ").strip().lower()
+
+    if resposta != "s":
+        print("\nExclusão cancelada.")
+        return
+
+    evento_id = tarefa_encontrada["evento_id"]
+    novas_tarefas = []
+
+    for tarefa in tarefas:
+        if tarefa["id"] != tarefa_id:
+            novas_tarefas.append(tarefa)
+
+    escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, novas_tarefas)
+    atualizar_orcamento_evento(evento_id)
+    print("\nTarefa excluída com sucesso.")
