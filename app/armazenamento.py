@@ -15,7 +15,7 @@ def inicializar_arquivos():
         }
 
         for caminho in arquivos:
-            if not os.path.exists(caminho):
+            if not os.path.exists(caminho) or os.path.getsize(caminho) == 0:
                 arquivo = open(caminho, "w")
                 arquivo.write(arquivos[caminho] + "\n")
                 arquivo.close()
