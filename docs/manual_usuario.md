@@ -230,6 +230,7 @@ Principais arquivos:
 Para sair do sistema, volte ao menu principal e escolha:
 
 ```text 
-0. Sair```
+0. Sair
+```
 
 O programa será encerrado, e os dados continuarão salvos nos arquivos CSV.
