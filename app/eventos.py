@@ -2,6 +2,7 @@ from datetime import datetime
 
 from app.armazenamento import ler_csv, escrever_csv, obter_proximo_id
 from app.validacoes import validar_data, validar_numero_positivo, validar_texto_obrigatorio, formatar_moeda
+from app.gerador_nomes import gerar_nome_evento
 
 
 CAMINHO_EVENTOS = "data/eventos.csv"
@@ -33,9 +34,36 @@ CABECALHO_TAREFAS = [
 
 def cadastrar_evento():
     while True:
-        nome = input("Nome do Evento: ").strip()
-        if validar_texto_obrigatorio(nome):
-            break
+        resposta = input("Deseja gerar um nome automático para o evento? [s/n] ").strip().lower()
+
+        if resposta == "s":
+            while True:
+                nome_sugerido = gerar_nome_evento()
+                print("Nome sugerido:", nome_sugerido)
+
+                usar_nome = input("Deseja usar esse nome? [s/n] ").strip().lower()
+
+                if usar_nome == "s":
+                    nome = nome_sugerido
+                    break
+
+                gerar_outro = input("Deseja gerar outro nome? [s/n] ").strip().lower()
+
+                if gerar_outro != "s":
+                    nome = input("Nome do Evento: ").strip()
+                    break
+
+            if validar_texto_obrigatorio(nome):
+                break
+
+        elif resposta == "n":
+            nome = input("Nome do Evento: ").strip()
+
+            if validar_texto_obrigatorio(nome):
+                break
+
+        else:
+            print("Opção inválida. Digite s ou n.")
 
     while True:
         tipo = input("Tipo do Evento (Aniversário, Casamento, Reunião, etc): ").strip()
