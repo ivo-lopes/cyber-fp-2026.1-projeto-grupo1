@@ -3,6 +3,7 @@ from datetime import datetime
 from app.armazenamento import ler_csv, escrever_csv, obter_proximo_id
 from app.validacoes import validar_data, validar_numero_positivo, validar_texto_obrigatorio, formatar_moeda
 from app.gerador_nomes import gerar_nome_evento
+from app.util import calcular_dias_restantes
 
 
 CAMINHO_EVENTOS = "data/eventos.csv"
@@ -158,6 +159,16 @@ def visualizar_evento():
     print("Nome:", evento["nome"])
     print("Tipo:", evento["tipo"])
     print("Data:", evento["data"])
+
+    dias_restantes = calcular_dias_restantes(evento["data"])
+
+    if dias_restantes > 0:
+        print("Contagem regressiva: Faltam", dias_restantes, "dias para o evento.")
+    elif dias_restantes == 0:
+        print("Contagem regressiva: O evento acontece hoje.")
+    else:
+        print("Contagem regressiva: Este evento já aconteceu há", abs(dias_restantes), "dias.")
+
     print("Local:", evento["local"])
     print("Orçamento inicial:", formatar_moeda(evento["orcamento_inicial"]))
     print("Orçamento disponível:", formatar_moeda(evento["orcamento_disponivel"]))

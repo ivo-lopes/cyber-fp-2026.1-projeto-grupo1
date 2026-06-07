@@ -1,6 +1,7 @@
 from app.eventos import cadastrar_evento, editar_evento, excluir_evento, listar_eventos, visualizar_evento
 from app.util import limpar_tela
 from app.validacoes import validar_opcao
+from app.gerador_nomes import gerar_nome_evento
 
 
 def pausar():
@@ -36,6 +37,10 @@ def mostrar_menu():
             break
         elif opcao == "1":
             mostrar_menu_eventos()
+        elif opcao == "4":
+            nome_sugerido = gerar_nome_evento()
+            print("Nome sugerido:", nome_sugerido)
+            pausar()
         else:
             mostrar_funcionalidade_pendente()
         print()
