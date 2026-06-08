@@ -71,8 +71,13 @@ def atualizar_orcamento_evento(evento_id):
 
     for evento in eventos:
         if evento["id"] == str(evento_id):
+            orcamento = evento["orcamento_inicial"].strip().replace(",", ".")
+
+            if orcamento == "":
+                orcamento = "0"
+
             try:
-                orcamento_inicial = float(evento["orcamento_inicial"])
+                orcamento_inicial = float(orcamento)
             except:
                 orcamento_inicial = 0
 
