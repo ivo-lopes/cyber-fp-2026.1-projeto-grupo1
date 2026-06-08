@@ -44,3 +44,9 @@ def buscar_sugestoes(tipo_evento, num_convidados):
         return None
 
     return sugestao_generica
+
+def exibir_categoria_sugestao(titulo, valor):
+    print(f"\n{titulo}:")
+
+    for item in formatar_lista_sugestoes(valor):
+        print(f"- {item}")
