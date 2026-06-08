@@ -102,7 +102,26 @@ def cadastrar_tarefa():
 
 
 def listar_tarefas_por_evento(evento_id):
-    pass
+    tarefas = ler_csv(CAMINHO_TAREFAS)
+    encontrou = False
+
+    print("\n========== TAREFAS DO EVENTO ==========")
+
+    for tarefa in tarefas:
+        if tarefa["evento_id"] == str(evento_id):
+            encontrou = True
+            print(f"ID: {tarefa['id']}")
+            print(f"Descrição: {tarefa['descricao']}")
+            print(f"Categoria: {tarefa['categoria']}")
+            print(f"Custo: R$ {tarefa['custo']}")
+            print(f"Status: {tarefa['status']}")
+            print(f"Prazo: {tarefa['prazo']}")
+            print("---------------------------------------")
+
+    if not encontrou:
+        print("Nenhuma tarefa cadastrada para este evento.")
+
+
 
 
 def editar_tarefa():
