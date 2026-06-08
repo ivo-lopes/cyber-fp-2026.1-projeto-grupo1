@@ -101,6 +101,7 @@ def cadastrar_tarefa():
 
 
 
+
 def listar_tarefas_por_evento(evento_id):
     tarefas = ler_csv(CAMINHO_TAREFAS)
     encontrou = False
@@ -120,6 +121,7 @@ def listar_tarefas_por_evento(evento_id):
 
     if not encontrou:
         print("Nenhuma tarefa cadastrada para este evento.")
+
 
 def editar_tarefa():
     tarefas = ler_csv(CAMINHO_TAREFAS)
@@ -175,6 +177,7 @@ def editar_tarefa():
     escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)
     atualizar_orcamento_evento(tarefa_encontrada["evento_id"])
     print("\nTarefa editada com sucesso.")
+
 
 def alterar_status_tarefa():
     tarefas = ler_csv(CAMINHO_TAREFAS)
@@ -255,6 +258,54 @@ def atualizar_orcamento_evento(evento_id):
         escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
 
 
+
+def calcular_total_tarefas(evento_id):
+    tarefas = ler_csv(CAMINHO_TAREFAS)
+    total = 0
+
+    for tarefa in tarefas:
+        if tarefa["evento_id"] == str(evento_id):
+            custo = tarefa["custo"].strip().replace(",", ".")
+
+            if custo == "":
+                custo = "0"
+
+            try:
+                total = total + float(custo)
+            except:
+                pass
+
+    return total
+
+
+def atualizar_orcamento_evento(evento_id):
+    eventos = ler_csv(CAMINHO_EVENTOS)
+    encontrou = False
+
+    for evento in eventos:
+        if evento["id"] == str(evento_id):
+            orcamento = evento["orcamento_inicial"].strip().replace(",", ".")
+
+            if orcamento == "":
+                orcamento = "0"
+
+            try:
+                orcamento_inicial = float(orcamento)
+            except:
+                orcamento_inicial = 0
+
+            total_tarefas = calcular_total_tarefas(evento_id)
+            evento["orcamento_disponivel"] = str(orcamento_inicial - total_tarefas)
+
+            if "atualizado_em" in evento:
+                evento["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
+
+            encontrou = True
+
+    if encontrou:
+        escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
+
+
 def excluir_tarefa():
     tarefas = ler_csv(CAMINHO_TAREFAS)
 
@@ -263,11 +314,17 @@ def excluir_tarefa():
         return
 
     tarefa_id = input("ID da tarefa: ").strip()
+
+    if tarefa_id == "":
+        print("\nInforme o ID da tarefa.")
+        return
+
     tarefa_encontrada = None
 
     for tarefa in tarefas:
         if tarefa["id"] == tarefa_id:
             tarefa_encontrada = tarefa
+            break
 
     if tarefa_encontrada == None:
         print("\nTarefa não encontrada.")

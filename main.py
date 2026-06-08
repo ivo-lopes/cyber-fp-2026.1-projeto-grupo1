@@ -1,4 +1,6 @@
-teste = "teste"
+from app.armazenamento import inicializar_arquivos
+from app.menu import mostrar_menu
 
-if teste == "teste":
-    print("Teste é igual a teste")
+
+inicializar_arquivos()
+mostrar_menu()
