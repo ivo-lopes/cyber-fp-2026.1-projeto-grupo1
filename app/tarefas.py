@@ -177,7 +177,45 @@ def editar_tarefa():
     print("\nTarefa editada com sucesso.")
 
 def alterar_status_tarefa():
-    pass
+    tarefas = ler_csv(CAMINHO_TAREFAS)
+
+    if len(tarefas) == 0:
+        print("\nNenhuma tarefa cadastrada.")
+        return
+
+    tarefa_id = input("ID da tarefa: ").strip()
+    tarefa_encontrada = None
+
+    for tarefa in tarefas:
+        if tarefa["id"] == tarefa_id:
+            tarefa_encontrada = tarefa
+
+    if tarefa_encontrada == None:
+        print("\nTarefa não encontrada.")
+        return
+
+    print("\nStatus disponíveis:")
+    print("1. Pendente")
+    print("2. Em andamento")
+    print("3. Concluída")
+
+    opcao = input("Escolha o novo status: ").strip()
+
+    if opcao == "1":
+        novo_status = "pendente"
+    elif opcao == "2":
+        novo_status = "em andamento"
+    elif opcao == "3":
+        novo_status = "concluída"
+    else:
+        print("\nOpção inválida.")
+        return
+
+    tarefa_encontrada["status"] = novo_status
+    tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
+    escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)
+    print("\nStatus alterado com sucesso.")
+
 
 
 def calcular_total_tarefas(evento_id):
