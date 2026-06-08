@@ -1,6 +1,8 @@
-import csv
+from app.armazenamento import ler_csv
+
 
 CAMINHO_SUGESTOES = "data/sugestoes.csv"
+MENSAGEM_GENERICA = "não encontramos uma sugestão específica para esse evento, mas você pode revisar fornecedores, decoração, cardápio e atividades de forma manual."
 
 
 def formatar_lista_sugestoes(valor):
