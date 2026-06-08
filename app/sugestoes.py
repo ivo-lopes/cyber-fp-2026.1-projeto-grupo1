@@ -17,49 +17,69 @@ def formatar_lista_sugestoes(valor):
 
     return lista_formatada
 
-
-def convidados_na_faixa(sugestao, num_convidados):
-    try:
-        minimo = int(sugestao["min_convidados"])
-        maximo = int(sugestao["max_convidados"])
-        return minimo <= num_convidados <= maximo
-    except:
-        return True
-
-
 def buscar_sugestoes(tipo_evento, num_convidados):
-    sugestoes = ler_csv(CAMINHO_SUGESTOES)
     sugestao_generica = None
 
     try:
-        convidados = int(num_convidados)
-    except:
-        convidados = -1
+        with open(CAMINHO_SUGESTOES, "r", encoding="utf-8") as arquivo:
+            leitor = csv.DictReader(arquivo, delimiter=";")
 
-    for sugestao in sugestoes:
-        tipo = sugestao["tipo_evento"].strip().lower()
+            for linha in leitor:
+                tipo_csv = linha["tipo_evento"].strip().lower()
 
-        if tipo == "generico" or tipo == "genérico" or tipo == "geral":
-            if sugestao_generica == None:
-                sugestao_generica = sugestao
+                try:
+                    minimo = int(linha["min_convidados"])
+                    maximo = int(linha["max_convidados"])
+                except:
+                    continue
 
-        if tipo == tipo_evento.strip().lower() and convidados_na_faixa(sugestao, convidados):
-            return sugestao
+                if tipo_csv == "generico":
+                    sugestao_generica = linha
+
+                if (
+                    tipo_csv == tipo_evento.strip().lower()
+                    and minimo <= num_convidados <= maximo
+                ):
+                    return linha
+    except FileNotFoundError:
+        print("\nArquivo de sugestões não encontrado.")
+        return None
 
     return sugestao_generica
 
+def exibir_categoria_sugestao(titulo, valor):
+    print(f"\n{titulo}:")
+
+    for item in formatar_lista_sugestoes(valor):
+        print(f"- {item}")
 
 def exibir_sugestoes_evento():
     tipo_evento = input("Tipo do evento: ").strip()
-    num_convidados = input("Número de convidados: ").strip()
+    convidados = input("Número de convidados: ").strip()
+
+    if tipo_evento == "":
+        print("\nTipo do evento é obrigatório.")
+        return
+
+    try:
+        num_convidados = int(convidados)
+
+        if num_convidados <= 0:
+            print("\nNúmero de convidados deve ser maior que zero.")
+            return
+    except:
+        print("\nNúmero de convidados inválido.")
+        return
+
     sugestao = buscar_sugestoes(tipo_evento, num_convidados)
 
     if sugestao == None:
-        print("\n" + MENSAGEM_GENERICA)
+        print("\nNenhuma sugestão encontrada.")
         return
 
-    print("\n========== SUGESTÕES ==========")
-    print("Fornecedores:", sugestao["fornecedores"])
-    print("Decoração:", sugestao["decoracao"])
-    print("Cardápio:", sugestao["cardapio"])
-    print("Atividades:", sugestao["atividades"])
+    print(f"\nSugestões para {tipo_evento} com {num_convidados} convidados:")
+    exibir_categoria_sugestao("Fornecedores", sugestao["fornecedores"])
+    exibir_categoria_sugestao("Decoração", sugestao["decoracao"])
+    exibir_categoria_sugestao("Cardápio", sugestao["cardapio"])
+    exibir_categoria_sugestao("Atividades", sugestao["atividades"])
+
