@@ -52,8 +52,13 @@ def calcular_total_tarefas(evento_id):
 
     for tarefa in tarefas:
         if tarefa["evento_id"] == str(evento_id):
+            custo = tarefa["custo"].strip().replace(",", ".")
+
+            if custo == "":
+                custo = "0"
+
             try:
-                total = total + float(tarefa["custo"])
+                total = total + float(custo)
             except:
                 pass
 
