@@ -12,7 +12,7 @@ def formatar_lista_sugestoes(valor):
     return valor.split("|")
 
 
-def numero_esta_na_faixa(sugestao, num_convidados):
+def convidados_na_faixa(sugestao, num_convidados):
     try:
         minimo = int(sugestao["min_convidados"])
         maximo = int(sugestao["max_convidados"])
@@ -37,7 +37,7 @@ def buscar_sugestoes(tipo_evento, num_convidados):
             if sugestao_generica == None:
                 sugestao_generica = sugestao
 
-        if tipo == tipo_evento.strip().lower() and numero_esta_na_faixa(sugestao, convidados):
+        if tipo == tipo_evento.strip().lower() and convidados_na_faixa(sugestao, convidados):
             return sugestao
 
     return sugestao_generica
