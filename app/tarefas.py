@@ -52,8 +52,13 @@ def calcular_total_tarefas(evento_id):
 
     for tarefa in tarefas:
         if tarefa["evento_id"] == str(evento_id):
+            custo = tarefa["custo"].strip().replace(",", ".")
+
+            if custo == "":
+                custo = "0"
+
             try:
-                total = total + float(tarefa["custo"])
+                total = total + float(custo)
             except:
                 pass
 
@@ -66,8 +71,13 @@ def atualizar_orcamento_evento(evento_id):
 
     for evento in eventos:
         if evento["id"] == str(evento_id):
+            orcamento = evento["orcamento_inicial"].strip().replace(",", ".")
+
+            if orcamento == "":
+                orcamento = "0"
+
             try:
-                orcamento_inicial = float(evento["orcamento_inicial"])
+                orcamento_inicial = float(orcamento)
             except:
                 orcamento_inicial = 0
 
@@ -91,11 +101,17 @@ def excluir_tarefa():
         return
 
     tarefa_id = input("ID da tarefa: ").strip()
+
+    if tarefa_id == "":
+        print("\nInforme o ID da tarefa.")
+        return
+
     tarefa_encontrada = None
 
     for tarefa in tarefas:
         if tarefa["id"] == tarefa_id:
             tarefa_encontrada = tarefa
+            break
 
     if tarefa_encontrada == None:
         print("\nTarefa não encontrada.")
