@@ -50,3 +50,34 @@ def exibir_categoria_sugestao(titulo, valor):
 
     for item in formatar_lista_sugestoes(valor):
         print(f"- {item}")
+
+def exibir_sugestoes_evento():
+    tipo_evento = input("Tipo do evento: ").strip()
+    convidados = input("Número de convidados: ").strip()
+
+    if tipo_evento == "":
+        print("\nTipo do evento é obrigatório.")
+        return
+
+    try:
+        num_convidados = int(convidados)
+
+        if num_convidados <= 0:
+            print("\nNúmero de convidados deve ser maior que zero.")
+            return
+    except:
+        print("\nNúmero de convidados inválido.")
+        return
+
+    sugestao = buscar_sugestoes(tipo_evento, num_convidados)
+
+    if sugestao == None:
+        print("\nNenhuma sugestão encontrada.")
+        return
+
+    print(f"\nSugestões para {tipo_evento} com {num_convidados} convidados:")
+    exibir_categoria_sugestao("Fornecedores", sugestao["fornecedores"])
+    exibir_categoria_sugestao("Decoração", sugestao["decoracao"])
+    exibir_categoria_sugestao("Cardápio", sugestao["cardapio"])
+    exibir_categoria_sugestao("Atividades", sugestao["atividades"])
+
