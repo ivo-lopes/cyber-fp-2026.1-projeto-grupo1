@@ -121,12 +121,60 @@ def listar_tarefas_por_evento(evento_id):
     if not encontrou:
         print("Nenhuma tarefa cadastrada para este evento.")
 
-
-
-
 def editar_tarefa():
-    pass
+    tarefas = ler_csv(CAMINHO_TAREFAS)
 
+    if len(tarefas) == 0:
+        print("\nNenhuma tarefa cadastrada.")
+        return
+
+    tarefa_id = input("ID da tarefa que deseja editar: ").strip()
+    tarefa_encontrada = None
+
+    for tarefa in tarefas:
+        if tarefa["id"] == tarefa_id:
+            tarefa_encontrada = tarefa
+
+    if tarefa_encontrada == None:
+        print("\nTarefa não encontrada.")
+        return
+
+    print("\nDeixe em branco para manter o valor atual.")
+
+    nova_descricao = input(f"Descrição ({tarefa_encontrada['descricao']}): ").strip()
+    nova_categoria = input(f"Categoria ({tarefa_encontrada['categoria']}): ").strip()
+    novo_custo = input(f"Custo ({tarefa_encontrada['custo']}): R$ ").strip().replace(",", ".")
+    novo_prazo = input(f"Prazo ({tarefa_encontrada['prazo']}): ").strip()
+
+    if nova_descricao != "":
+        tarefa_encontrada["descricao"] = nova_descricao
+
+    if nova_categoria != "":
+        tarefa_encontrada["categoria"] = nova_categoria
+
+    if novo_custo != "":
+        try:
+            custo = float(novo_custo)
+            if custo < 0:
+                print("\nO custo não pode ser negativo.")
+                return
+            tarefa_encontrada["custo"] = str(custo)
+        except:
+            print("\nDigite um número válido para o custo.")
+            return
+
+    if novo_prazo != "":
+        try:
+            datetime.strptime(novo_prazo, "%Y-%m-%d")
+        except:
+            print("\nData inválida. Use o formato AAAA-MM-DD.")
+            return
+        tarefa_encontrada["prazo"] = novo_prazo
+
+    tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
+    escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)
+    atualizar_orcamento_evento(tarefa_encontrada["evento_id"])
+    print("\nTarefa editada com sucesso.")
 
 def alterar_status_tarefa():
     pass
