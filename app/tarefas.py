@@ -101,11 +101,17 @@ def excluir_tarefa():
         return
 
     tarefa_id = input("ID da tarefa: ").strip()
+
+    if tarefa_id == "":
+        print("\nInforme o ID da tarefa.")
+        return
+
     tarefa_encontrada = None
 
     for tarefa in tarefas:
         if tarefa["id"] == tarefa_id:
             tarefa_encontrada = tarefa
+            break
 
     if tarefa_encontrada == None:
         print("\nTarefa não encontrada.")
