@@ -1,32 +1,59 @@
-import csv
+from app.armazenamento import ler_csv
+
+
+CAMINHO_SUGESTOES = "data/sugestoes.csv"
+MENSAGEM_GENERICA = "não encontramos uma sugestão específica para esse evento, mas você pode revisar fornecedores, decoração, cardápio e atividades de forma manual."
+
 
 def formatar_lista_sugestoes(valor):
+    if valor == "":
+        return []
+
     return valor.split("|")
 
-## Procura uma sugestão no arquivo sugestoes.csv de acordo com o tipo do evento e a quantidade de convidados
+
+def numero_esta_na_faixa(sugestao, num_convidados):
+    try:
+        minimo = int(sugestao["min_convidados"])
+        maximo = int(sugestao["max_convidados"])
+        return minimo <= num_convidados <= maximo
+    except:
+        return True
+
 
 def buscar_sugestoes(tipo_evento, num_convidados):
+    sugestoes = ler_csv(CAMINHO_SUGESTOES)
+    sugestao_generica = None
 
-    ## Abre o arquivo CSV para leitura
-    ##encoding="utf-8"=>isso serve para dizer ao Python como ler os caracteres do arquivo.
-    with open("data/sugestoes.csv", "r", encoding="utf-8") as arquivo:
+    try:
+        convidados = int(num_convidados)
+    except:
+        convidados = -1
 
-        ## delimiter=";" => Lê o arquivo considerando ";" como separador
-        leitor = csv.DictReader(arquivo, delimiter=";")
+    for sugestao in sugestoes:
+        tipo = sugestao["tipo_evento"].strip().lower()
 
-        ## Percorre cada linha do arquivo
-        for linha in leitor:
+        if tipo == "generico" or tipo == "genérico" or tipo == "geral":
+            if sugestao_generica == None:
+                sugestao_generica = sugestao
 
-            ## Verifica se:
-            ## 1. O tipo do evento é o mesmo informado pelo usuário
-            ## 2. A quantidade de convidados está dentro da faixa permitida
-            if (
-                linha["tipo_evento"].lower() == tipo_evento.lower()
-                and int(linha["min_convidados"]) <= num_convidados <= int(linha["max_convidados"])
-            ):
+        if tipo == tipo_evento.strip().lower() and numero_esta_na_faixa(sugestao, convidados):
+            return sugestao
 
-                ## Retorna a linha encontrada
-                return linha
+    return sugestao_generica
 
-    ## Caso nenhuma sugestão seja encontrada
-    return None
+
+def exibir_sugestoes_evento():
+    tipo_evento = input("Tipo do evento: ").strip()
+    num_convidados = input("Número de convidados: ").strip()
+    sugestao = buscar_sugestoes(tipo_evento, num_convidados)
+
+    if sugestao == None:
+        print("\n" + MENSAGEM_GENERICA)
+        return
+
+    print("\n========== SUGESTÕES ==========")
+    print("Fornecedores:", sugestao["fornecedores"])
+    print("Decoração:", sugestao["decoracao"])
+    print("Cardápio:", sugestao["cardapio"])
+    print("Atividades:", sugestao["atividades"])
