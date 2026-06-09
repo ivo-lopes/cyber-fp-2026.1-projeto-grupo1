@@ -201,7 +201,44 @@ Substantivo genérico + adjetivo positivo + complemento abstrato
 
 Essa regra ajuda a garantir que as combinações façam sentido.
 
-## 11. Validações
+## 11. Gerenciar Tarefas
+
+Para usar tarefas, escolha no menu principal:
+
+```text
+2. Gerenciar tarefas de um evento
+```
+
+O sistema abre o menu de tarefas:
+
+```text
+1. Cadastrar tarefa
+2. Listar tarefas de um evento
+3. Editar tarefa
+4. Alterar status da tarefa
+5. Excluir tarefa
+0. Voltar
+```
+
+As tarefas sempre ficam ligadas a um evento pelo ID do evento.
+
+Ao cadastrar uma tarefa, o sistema pede descrição, categoria, custo e prazo. Depois disso, o orçamento disponível do evento é recalculado.
+
+Ao editar ou excluir uma tarefa, o orçamento também é atualizado.
+
+## 12. Sugestões Personalizadas
+
+Para ver sugestões, escolha no menu principal:
+
+```text
+3. Ver sugestões personalizadas
+```
+
+O sistema pede o tipo do evento e o número de convidados.
+
+Se encontrar uma sugestão específica no arquivo `data/sugestoes.csv`, ela será exibida. Se não encontrar, o sistema usa a sugestão genérica cadastrada no arquivo.
+
+## 13. Validações
 
 O sistema possui validações para evitar erros durante o uso.
 
@@ -214,7 +251,7 @@ Alguns exemplos:
 
 Se o usuário digitar uma informação inválida, o sistema mostra uma mensagem de erro e pede o dado novamente.
 
-## 12. Arquivos De Dados
+## 14. Arquivos De Dados
 
 O sistema usa arquivos CSV dentro da pasta `data`.
 
@@ -225,7 +262,14 @@ Principais arquivos:
 - `nomes_eventos.csv`: armazena as partes usadas no gerador de nomes;
 - `sugestoes.csv`: armazena sugestões personalizadas por tipo de evento.
 
-## 13. Encerrando O Sistema
+## 15. Restrições Conhecidas
+
+- A opção de resumo geral ainda mostra mensagem de funcionalidade não implementada.
+- O arquivo de sugestões possui uma sugestão genérica, mas ainda precisa de mais sugestões específicas para testes completos.
+- O projeto usa CSV simples com `;` e não usa a biblioteca `csv`.
+- O sistema foi feito para ser usado pelo terminal.
+
+## 16. Encerrando O Sistema
 
 Para sair do sistema, volte ao menu principal e escolha:
 
