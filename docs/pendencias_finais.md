@@ -26,8 +26,8 @@ Este relatório foi feito depois da revisão do código, dos CSVs, da documenta�
 ## Pendências de Renata
 
 - Confirmar se cadastro, listagem, edição, alteração de status e exclusão de tarefas estão completos.
-- Confirmar se sugestões personalizadas estão funcionando para tipos específicos quando houver dados no CSV.
-- Adicionar ou revisar sugestões específicas em `data/sugestoes.csv`, se a equipe quiser testar além da sugestão genérica.
+- Confirmar se sugestões personalizadas estão funcionando para os tipos específicos cadastrados no CSV.
+- Revisar se as sugestões específicas estão adequadas para a apresentação.
 - Confirmar se o fallback para sugestão genérica está funcionando.
 - Revisar os casos de teste e o README antes da entrega final.
 

@@ -23,9 +23,10 @@ Explicar que o projeto foi feito em Python para Fundamentos da Programação e u
 7. Entrar no menu de tarefas.
 8. Cadastrar uma tarefa para o evento.
 9. Mostrar o orçamento disponível atualizado.
-10. Mostrar sugestões personalizadas.
-11. Gerar um nome automático.
-12. Sair do sistema.
+10. Mostrar o resumo geral.
+11. Mostrar sugestões personalizadas.
+12. Gerar um nome automático.
+13. Sair do sistema.
 
 ## 4. Parte técnica
 
@@ -33,6 +34,7 @@ Explicar que o projeto foi feito em Python para Fundamentos da Programação e u
 - `app/menu.py` controla os menus.
 - `app/eventos.py` trabalha com eventos.
 - `app/tarefas.py` trabalha com tarefas e orçamento.
+- `app/resumo.py` mostra o resumo geral.
 - `app/sugestoes.py` mostra sugestões.
 - `app/gerador_nomes.py` gera nomes automáticos.
 - `app/armazenamento.py` lê e escreve os CSVs.

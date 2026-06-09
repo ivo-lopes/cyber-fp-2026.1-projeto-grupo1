@@ -1,4 +1,5 @@
 from app.eventos import cadastrar_evento, editar_evento, excluir_evento, listar_eventos, visualizar_evento
+from app.resumo import exibir_resumo_geral
 from app.sugestoes import exibir_sugestoes_evento
 from app.tarefas import cadastrar_tarefa, listar_tarefas_por_evento, editar_tarefa, alterar_status_tarefa, excluir_tarefa
 from app.util import limpar_tela
@@ -48,8 +49,9 @@ def mostrar_menu():
             nome_sugerido = gerar_nome_evento()
             print("Nome sugerido:", nome_sugerido)
             pausar()
-        else:
-            mostrar_funcionalidade_pendente()
+        elif opcao == "5":
+            exibir_resumo_geral()
+            pausar()
         print()
 
 
