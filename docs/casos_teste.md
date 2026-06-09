@@ -91,7 +91,15 @@ Passos:
 Resultado esperado:
 - O sistema mostra uma sugestão específica ou a sugestão genérica.
 
-## 10. Testar gerador de nomes
+## 10. Testar resumo geral
+
+Passos:
+- Escolher `Ver resumo geral`.
+
+Resultado esperado:
+- O sistema mostra quantidade de eventos, tarefas, orçamento total e próximo evento.
+
+## 11. Testar gerador de nomes
 
 Passos:
 - Escolher `Gerar nome automático de evento`.

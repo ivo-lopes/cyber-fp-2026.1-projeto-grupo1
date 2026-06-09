@@ -17,12 +17,24 @@ def formatar_lista_sugestoes(valor):
     return lista_formatada
 
 
+def normalizar_tipo_evento(valor):
+    valor = valor.strip().lower()
+    valor = valor.replace("á", "a").replace("à", "a").replace("ã", "a").replace("â", "a")
+    valor = valor.replace("é", "e").replace("ê", "e")
+    valor = valor.replace("í", "i")
+    valor = valor.replace("ó", "o").replace("ô", "o").replace("õ", "o")
+    valor = valor.replace("ú", "u")
+    valor = valor.replace("ç", "c")
+    return valor
+
+
 def buscar_sugestoes(tipo_evento, num_convidados):
     sugestoes = ler_csv(CAMINHO_SUGESTOES)
     sugestao_generica = None
+    tipo_pesquisado = normalizar_tipo_evento(tipo_evento)
 
     for sugestao in sugestoes:
-        tipo_csv = sugestao["tipo_evento"].strip().lower()
+        tipo_csv = normalizar_tipo_evento(sugestao["tipo_evento"])
 
         try:
             minimo = int(sugestao["min_convidados"])
@@ -33,7 +45,7 @@ def buscar_sugestoes(tipo_evento, num_convidados):
         if tipo_csv == "generico":
             sugestao_generica = sugestao
 
-        if tipo_csv == tipo_evento.strip().lower() and minimo <= num_convidados <= maximo:
+        if tipo_csv == tipo_pesquisado and minimo <= num_convidados <= maximo:
             return sugestao
 
     return sugestao_generica

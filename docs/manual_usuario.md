@@ -238,7 +238,25 @@ O sistema pede o tipo do evento e o número de convidados.
 
 Se encontrar uma sugestão específica no arquivo `data/sugestoes.csv`, ela será exibida. Se não encontrar, o sistema usa a sugestão genérica cadastrada no arquivo.
 
-## 13. Validações
+## 13. Resumo Geral
+
+Para ver o resumo, escolha no menu principal:
+
+```text
+5. Ver resumo geral
+```
+
+O sistema mostra:
+
+- quantidade de eventos;
+- quantidade de tarefas;
+- tarefas por status;
+- orçamento inicial total;
+- orçamento disponível total;
+- custo total das tarefas;
+- próximo evento futuro, se existir.
+
+## 14. Validações
 
 O sistema possui validações para evitar erros durante o uso.
 
@@ -251,7 +269,7 @@ Alguns exemplos:
 
 Se o usuário digitar uma informação inválida, o sistema mostra uma mensagem de erro e pede o dado novamente.
 
-## 14. Arquivos De Dados
+## 15. Arquivos De Dados
 
 O sistema usa arquivos CSV dentro da pasta `data`.
 
@@ -262,14 +280,13 @@ Principais arquivos:
 - `nomes_eventos.csv`: armazena as partes usadas no gerador de nomes;
 - `sugestoes.csv`: armazena sugestões personalizadas por tipo de evento.
 
-## 15. Restrições Conhecidas
+## 16. Restrições Conhecidas
 
-- A opção de resumo geral ainda mostra mensagem de funcionalidade não implementada.
-- O arquivo de sugestões possui uma sugestão genérica, mas ainda precisa de mais sugestões específicas para testes completos.
+- O arquivo de sugestões possui tipos específicos e também uma sugestão genérica para fallback.
 - O projeto usa CSV simples com `;` e não usa a biblioteca `csv`.
 - O sistema foi feito para ser usado pelo terminal.
 
-## 16. Encerrando O Sistema
+## 17. Encerrando O Sistema
 
 Para sair do sistema, volte ao menu principal e escolha:
 
