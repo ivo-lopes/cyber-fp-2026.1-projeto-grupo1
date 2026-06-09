@@ -285,6 +285,9 @@ def editar_evento():
     evento_encontrado["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
 
     escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
+    from app.tarefas import atualizar_orcamento_evento
+
+    atualizar_orcamento_evento(evento_id)
     print("\nEvento atualizado com sucesso.")
 
 
