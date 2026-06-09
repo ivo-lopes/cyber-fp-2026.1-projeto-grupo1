@@ -16,7 +16,7 @@ def inicializar_arquivos():
 
         for caminho in arquivos:
             if not os.path.exists(caminho) or os.path.getsize(caminho) == 0:
-                arquivo = open(caminho, "w")
+                arquivo = open(caminho, "w", encoding="utf-8")
                 arquivo.write(arquivos[caminho] + "\n")
                 arquivo.close()
     except:
@@ -31,7 +31,7 @@ def ler_csv(caminho):
         if not os.path.exists(caminho):
             return registros
 
-        arquivo = open(caminho, "r")
+        arquivo = open(caminho, "r", encoding="utf-8")
         linhas = arquivo.readlines()
         arquivo.close()
 
@@ -63,7 +63,7 @@ def ler_csv(caminho):
 def escrever_csv(caminho, cabecalho, registros):
     # Escreve o cabecalho e depois grava os registros no arquivo.
     try:
-        arquivo = open(caminho, "w")
+        arquivo = open(caminho, "w", encoding="utf-8")
         arquivo.write(";".join(cabecalho) + "\n")
 
         for registro in registros:

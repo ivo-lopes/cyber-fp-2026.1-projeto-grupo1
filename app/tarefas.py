@@ -218,46 +218,7 @@ def alterar_status_tarefa():
     tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
     escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)
     print("\nStatus alterado com sucesso.")
-
-
-
-def calcular_total_tarefas(evento_id):
-    tarefas = ler_csv(CAMINHO_TAREFAS)
-    total = 0
-
-    for tarefa in tarefas:
-        if tarefa["evento_id"] == str(evento_id):
-            try:
-                total = total + float(tarefa["custo"])
-            except:
-                pass
-
-    return total
-
-
-def atualizar_orcamento_evento(evento_id):
-    eventos = ler_csv(CAMINHO_EVENTOS)
-    encontrou = False
-
-    for evento in eventos:
-        if evento["id"] == str(evento_id):
-            try:
-                orcamento_inicial = float(evento["orcamento_inicial"])
-            except:
-                orcamento_inicial = 0
-
-            total_tarefas = calcular_total_tarefas(evento_id)
-            evento["orcamento_disponivel"] = str(orcamento_inicial - total_tarefas)
-
-            if "atualizado_em" in evento:
-                evento["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
-
-            encontrou = True
-
-    if encontrou:
-        escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
-
-
+    
 
 def calcular_total_tarefas(evento_id):
     tarefas = ler_csv(CAMINHO_TAREFAS)
