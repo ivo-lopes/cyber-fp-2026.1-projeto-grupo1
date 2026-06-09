@@ -1,8 +1,7 @@
-from app.armazenamento import ler_csv
+import csv
 
 
 CAMINHO_SUGESTOES = "data/sugestoes.csv"
-MENSAGEM_GENERICA = "não encontramos uma sugestão específica para esse evento, mas você pode revisar fornecedores, decoração, cardápio e atividades de forma manual."
 
 
 def formatar_lista_sugestoes(valor):
@@ -17,6 +16,7 @@ def formatar_lista_sugestoes(valor):
 
     return lista_formatada
 
+
 def buscar_sugestoes(tipo_evento, num_convidados):
     sugestao_generica = None
 
@@ -30,7 +30,7 @@ def buscar_sugestoes(tipo_evento, num_convidados):
                 try:
                     minimo = int(linha["min_convidados"])
                     maximo = int(linha["max_convidados"])
-                except:
+                except ValueError:
                     continue
 
                 if tipo_csv == "generico":
@@ -41,11 +41,13 @@ def buscar_sugestoes(tipo_evento, num_convidados):
                     and minimo <= num_convidados <= maximo
                 ):
                     return linha
+
     except FileNotFoundError:
         print("\nArquivo de sugestões não encontrado.")
         return None
 
     return sugestao_generica
+
 
 def exibir_categoria_sugestao(titulo, valor):
     print(f"\n{titulo}:")
@@ -53,29 +55,31 @@ def exibir_categoria_sugestao(titulo, valor):
     for item in formatar_lista_sugestoes(valor):
         print(f"- {item}")
 
+
 def exibir_sugestoes_evento():
     tipo_evento = input("Tipo do evento: ").strip()
     convidados = input("Número de convidados: ").strip()
 
     if tipo_evento == "":
         print("\nTipo do evento é obrigatório.")
-        return
+        return None
 
     try:
         num_convidados = int(convidados)
 
         if num_convidados <= 0:
             print("\nNúmero de convidados deve ser maior que zero.")
-            return
-    except:
+            return None
+
+    except ValueError:
         print("\nNúmero de convidados inválido.")
-        return
+        return None
 
     sugestao = buscar_sugestoes(tipo_evento, num_convidados)
 
     if sugestao == None:
         print("\nNenhuma sugestão encontrada.")
-        return
+        return None
 
     print(f"\nSugestões para {tipo_evento} com {num_convidados} convidados:")
     exibir_categoria_sugestao("Fornecedores", sugestao["fornecedores"])
@@ -83,3 +87,4 @@ def exibir_sugestoes_evento():
     exibir_categoria_sugestao("Cardápio", sugestao["cardapio"])
     exibir_categoria_sugestao("Atividades", sugestao["atividades"])
 
+    return sugestao
