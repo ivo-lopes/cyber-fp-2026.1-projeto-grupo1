@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 def limpar_tela():
-    # Limpa a tela de acordo com o sistema usado.
+    
     if os.name == "nt":
         os.system("cls")
     elif "TERM" in os.environ:
@@ -13,7 +13,7 @@ def limpar_tela():
 
 
 def calcular_dias_restantes(data_evento):
-    # Calcula quantos dias faltam para a data do evento.
+    
     try:
         data_evento = data_evento.strip()
 

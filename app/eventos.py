@@ -92,9 +92,9 @@ def cadastrar_evento():
         try:
             if int(convidados) > 0:
                 break
-            print("❌ Erro: O número deve ser positivo. Tente novamente.")
+            print("O número deve ser positivo. Tente novamente.")
         except ValueError:
-            print("❌ Erro: Entrada inválida! Por favor, insira um número inteiro válido.")
+            print("Entrada inválida! Por favor, insira um número inteiro válido.")
 
     eventos = ler_csv(CAMINHO_EVENTOS)
     data_atual = datetime.now().strftime("%Y-%m-%d")
@@ -114,7 +114,7 @@ def cadastrar_evento():
 
     eventos.append(novo_evento)
     escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
-    print(f"\n✔️ Pronto! Os dados de '{nome}' foram validados e cadastrados.")
+    print(f"\nOs dados de '{nome}' foram validados e cadastrados.")
     return novo_evento
 
 
