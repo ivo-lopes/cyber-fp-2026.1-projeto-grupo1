@@ -1,96 +1,50 @@
-# Roteiro técnico de integração
+# Roteiro de apresentação
 
-## 1. Execução do sistema
+## 1. Abertura
 
-O sistema começa pelo arquivo `main.py`.
+Apresentar o Organiza Festa como um sistema simples de terminal para organizar eventos.
 
-Ele chama `inicializar_arquivos()` para preparar os CSVs e depois chama `mostrar_menu()` para abrir o menu principal.
+Explicar que o projeto foi feito em Python para Fundamentos da Programação e usa arquivos CSV para guardar os dados.
 
-Comando usado:
+## 2. Divisão da equipe
 
-```bash
-python main.py
-```
+- Ivo: estrutura, CSV, orçamento, integração e revisão final.
+- Jéssica: eventos, visualização e gerador de nomes.
+- Renata: tarefas, sugestões, testes e README.
 
-Neste ambiente também foi testado com:
+## 3. Demonstração do sistema
 
-```bash
-python3 main.py
-```
+1. Abrir o sistema com `python main.py`.
+2. Mostrar o menu principal.
+3. Entrar no menu de eventos.
+4. Cadastrar um evento.
+5. Listar e visualizar o evento.
+6. Mostrar a contagem regressiva.
+7. Entrar no menu de tarefas.
+8. Cadastrar uma tarefa para o evento.
+9. Mostrar o orçamento disponível atualizado.
+10. Mostrar sugestões personalizadas.
+11. Gerar um nome automático.
+12. Sair do sistema.
 
-## 2. Menu principal
+## 4. Parte técnica
 
-O menu principal fica em `app/menu.py`.
+- `main.py` inicia o sistema.
+- `app/menu.py` controla os menus.
+- `app/eventos.py` trabalha com eventos.
+- `app/tarefas.py` trabalha com tarefas e orçamento.
+- `app/sugestoes.py` mostra sugestões.
+- `app/gerador_nomes.py` gera nomes automáticos.
+- `app/armazenamento.py` lê e escreve os CSVs.
 
-Ele leva para:
+## 5. Pontos para comentar
 
-- gerenciamento de eventos;
-- gerenciamento de tarefas;
-- sugestões personalizadas;
-- gerador de nomes.
+- Os CSVs são criados automaticamente se estiverem vazios ou ausentes.
+- Os dados existentes são preservados.
+- O orçamento disponível é calculado com base no custo das tarefas.
+- A contagem regressiva usa a data do evento.
+- A sugestão genérica serve como fallback.
 
-Algumas opções de tarefas ainda ficam como pendentes porque pertencem à parte da Renata.
+## 6. Fechamento
 
-## 3. Eventos
-
-As funções de eventos ficam em `app/eventos.py`.
-
-O cadastro salva o orçamento inicial e o orçamento disponível com o mesmo valor no começo.
-
-A visualização mostra os dados do evento e a contagem regressiva.
-
-## 4. Tarefas e orçamento
-
-As funções revisadas por Ivo ficam em `app/tarefas.py`.
-
-O total das tarefas é calculado somando o custo das tarefas do mesmo evento.
-
-O orçamento disponível segue a regra:
-
-```text
-orcamento_disponivel = orcamento_inicial - soma_dos_custos_das_tarefas
-```
-
-Quando uma tarefa é excluída, o sistema chama a atualização do orçamento do evento.
-
-## 5. Contagem regressiva
-
-A função `calcular_dias_restantes()` fica em `app/util.py`.
-
-Ela recebe uma data no formato `AAAA-MM-DD` e retorna:
-
-- número positivo para evento futuro;
-- zero para evento de hoje;
-- número negativo para evento que já passou.
-
-Se a data vier inválida, a função retorna zero para não quebrar o sistema.
-
-## 6. Sugestões
-
-As sugestões ficam em `app/sugestoes.py` e usam `data/sugestoes.csv`.
-
-O sistema tenta buscar uma sugestão específica pelo tipo do evento e número de convidados.
-
-Se não encontrar, usa uma sugestão genérica.
-
-Se mesmo assim não tiver sugestão, mostra uma mensagem simples para o usuário revisar tudo manualmente.
-
-## 7. Gerador de nomes
-
-O gerador fica em `app/gerador_nomes.py`.
-
-Ele lê `data/nomes_eventos.csv`, sorteia uma parte de cada coluna e monta um nome.
-
-Se o arquivo estiver vazio, retorna `Evento Especial`.
-
-## 8. Testes manuais sugeridos
-
-1. Rodar `python main.py`.
-2. Abrir o menu de eventos.
-3. Cadastrar ou visualizar um evento.
-4. Abrir o menu de tarefas.
-5. Testar exclusão de tarefa, se existir tarefa cadastrada.
-6. Verificar se o orçamento do evento foi recalculado.
-7. Abrir sugestões personalizadas.
-8. Gerar um nome automático.
-9. Sair pelo menu principal.
+Encerrar mostrando que o sistema roda pelo terminal, mantém os dados nos CSVs e cobre as funções principais combinadas no roadmap.
