@@ -6,10 +6,16 @@ MENSAGEM_GENERICA = "não encontramos uma sugestão específica para esse evento
 
 
 def formatar_lista_sugestoes(valor):
-    if valor == "":
-        return []
+    itens = valor.split("|")
+    lista_formatada = []
 
-    return valor.split("|")
+    for item in itens:
+        item = item.strip()
+
+        if item != "":
+            lista_formatada.append(item)
+
+    return lista_formatada
 
 
 def convidados_na_faixa(sugestao, num_convidados):

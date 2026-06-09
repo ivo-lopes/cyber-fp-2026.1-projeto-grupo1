@@ -1,6 +1,6 @@
 from app.eventos import cadastrar_evento, editar_evento, excluir_evento, listar_eventos, visualizar_evento
 from app.sugestoes import exibir_sugestoes_evento
-from app.tarefas import excluir_tarefa
+from app.tarefas import cadastrar_tarefa, listar_tarefas_por_evento, editar_tarefa, alterar_status_tarefa, excluir_tarefa
 from app.util import limpar_tela
 from app.validacoes import validar_opcao
 from app.gerador_nomes import gerar_nome_evento
@@ -74,11 +74,22 @@ def mostrar_menu_tarefas():
             pausar()
         elif opcao == "0":
             break
+        elif opcao == "1":
+            cadastrar_tarefa()
+            pausar()
+        elif opcao == "2":
+            evento_id = input("ID do evento: ").strip()
+            listar_tarefas_por_evento(evento_id)
+            pausar()
+        elif opcao == "3":
+            editar_tarefa()
+            pausar()
+        elif opcao == "4":
+            alterar_status_tarefa()
+            pausar()
         elif opcao == "5":
             excluir_tarefa()
             pausar()
-        else:
-            mostrar_funcionalidade_pendente()
         print()
 
 
