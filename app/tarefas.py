@@ -1,6 +1,12 @@
 from datetime import datetime
 
 from app.armazenamento import ler_csv, escrever_csv
+from app.validacoes import (
+    pedir_data_cancelavel,
+    pedir_numero_zero_ou_positivo,
+    pedir_opcao,
+    pedir_texto_cancelavel,
+)
 
 
 CAMINHO_EVENTOS = "data/eventos.csv"
@@ -34,7 +40,12 @@ def cadastrar_tarefa():
     tarefas = ler_csv(CAMINHO_TAREFAS)
     eventos = ler_csv(CAMINHO_EVENTOS)
 
-    evento_id = input("ID do evento: ").strip()
+    evento_id = pedir_texto_cancelavel("ID do evento ou 0 para cancelar: ")
+
+    if evento_id == None:
+        print("\nCadastro cancelado.")
+        return
+
     evento_encontrado = False
 
     for evento in eventos:
@@ -45,30 +56,24 @@ def cadastrar_tarefa():
         print("\nEvento não encontrado. Cadastre a tarefa em um evento existente.")
         return
 
-    descricao = input("Descrição da tarefa: ").strip()
-    categoria = input("Categoria da tarefa: ").strip()
+    descricao = pedir_texto_cancelavel("Descrição da tarefa ou 0 para cancelar: ")
 
-    if descricao == "" or categoria == "":
-        print("\nDescrição e categoria são obrigatórias.")
+    if descricao == None:
+        print("\nCadastro cancelado.")
         return
 
-    custo_digitado = input("Custo da tarefa: R$ ").strip().replace(",", ".")
+    categoria = pedir_texto_cancelavel("Categoria da tarefa ou 0 para cancelar: ")
 
-    try:
-        custo = float(custo_digitado)
-        if custo < 0:
-            print("\nO custo não pode ser negativo.")
-            return
-    except:
-        print("\nDigite um número válido para o custo.")
+    if categoria == None:
+        print("\nCadastro cancelado.")
         return
 
-    prazo = input("Prazo da tarefa (DD/MM/AAAA): ").strip()
+    custo_digitado = pedir_numero_zero_ou_positivo("Custo da tarefa: R$ ")
+    custo = float(custo_digitado)
+    prazo = pedir_data_cancelavel("Prazo da tarefa (DD/MM/AAAA) ou 0 para cancelar: ")
 
-    try:
-        datetime.strptime(prazo, "%d/%m/%Y")
-    except:
-        print("\nData inválida. Use o formato DD/MM/AAAA.")
+    if prazo == None:
+        print("\nCadastro cancelado.")
         return
 
     maior_id = 0
@@ -130,7 +135,12 @@ def editar_tarefa():
         print("\nNenhuma tarefa cadastrada.")
         return
 
-    tarefa_id = input("ID da tarefa que deseja editar: ").strip()
+    tarefa_id = pedir_texto_cancelavel("ID da tarefa que deseja editar ou 0 para cancelar: ")
+
+    if tarefa_id == None:
+        print("\nEdição cancelada.")
+        return
+
     tarefa_encontrada = None
 
     for tarefa in tarefas:
@@ -186,7 +196,12 @@ def alterar_status_tarefa():
         print("\nNenhuma tarefa cadastrada.")
         return
 
-    tarefa_id = input("ID da tarefa: ").strip()
+    tarefa_id = pedir_texto_cancelavel("ID da tarefa ou 0 para cancelar: ")
+
+    if tarefa_id == None:
+        print("\nAlteração cancelada.")
+        return
+
     tarefa_encontrada = None
 
     for tarefa in tarefas:
@@ -201,8 +216,13 @@ def alterar_status_tarefa():
     print("1. Pendente")
     print("2. Em andamento")
     print("3. Concluída")
+    print("0. Cancelar")
 
-    opcao = input("Escolha o novo status: ").strip()
+    opcao = pedir_opcao("Escolha o novo status: ", ["0", "1", "2", "3"])
+
+    if opcao == "0":
+        print("\nAlteração cancelada.")
+        return
 
     if opcao == "1":
         novo_status = "pendente"
@@ -210,10 +230,6 @@ def alterar_status_tarefa():
         novo_status = "em andamento"
     elif opcao == "3":
         novo_status = "concluída"
-    else:
-        print("\nOpção inválida.")
-        return
-
     tarefa_encontrada["status"] = novo_status
     tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%d/%m/%Y")
     escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)
@@ -274,10 +290,10 @@ def excluir_tarefa():
         print("\nNenhuma tarefa cadastrada.")
         return
 
-    tarefa_id = input("ID da tarefa: ").strip()
+    tarefa_id = pedir_texto_cancelavel("ID da tarefa ou 0 para cancelar: ")
 
-    if tarefa_id == "":
-        print("\nInforme o ID da tarefa.")
+    if tarefa_id == None:
+        print("\nExclusão cancelada.")
         return
 
     tarefa_encontrada = None
@@ -291,7 +307,7 @@ def excluir_tarefa():
         print("\nTarefa não encontrada.")
         return
 
-    resposta = input("Deseja realmente excluir esta tarefa? [s/n] ").strip().lower()
+    resposta = pedir_opcao("Deseja realmente excluir esta tarefa? [s/n] ou 0 para cancelar: ", ["s", "n", "0"])
 
     if resposta != "s":
         print("\nExclusão cancelada.")

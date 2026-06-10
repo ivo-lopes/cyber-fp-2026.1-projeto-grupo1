@@ -33,6 +33,12 @@ Ao executar o programa, o usuário verá o menu principal:
 
 Digite o número da opção desejada e pressione Enter.
 
+O sistema usa cores simples no terminal para destacar títulos, avisos e mensagens de erro.
+
+Se pressionar `Ctrl+C` no menu principal, o programa será encerrado. Se pressionar `Ctrl+C` dentro de um submenu ou de uma função, a operação será cancelada e o sistema voltará para o menu anterior.
+
+Em algumas perguntas, como ID de evento, ID de tarefa ou confirmação de exclusão, é possível digitar `0` para cancelar.
+
 ## 4. Gerenciar Eventos
 
 Ao escolher a opção `1. Gerenciar eventos`, o sistema abre o menu de eventos:
@@ -85,7 +91,7 @@ Caso não queira gerar outro, você poderá digitar o nome manualmente.
 Depois do nome, o sistema solicitará:
 
 - Tipo do evento;
-- Data do evento no formato `AAAA-MM-DD`;
+- Data do evento no formato `DD/MM/AAAA`;
 - Local do evento;
 - Orçamento inicial;
 - Número de convidados.
@@ -112,7 +118,7 @@ Exemplo:
 ID: 1
 Nome: Festa Memorável de Bons Momentos
 Tipo: Aniversário
-Data: 2026-06-20
+Data: 20/06/2026
 Local: Salão Central
 ----------------------------------------
 ```
@@ -263,7 +269,7 @@ O sistema possui validações para evitar erros durante o uso.
 Alguns exemplos:
 
 - Campos obrigatórios não podem ficar vazios;
-- Datas devem seguir o formato `AAAA-MM-DD`;
+- Datas devem seguir o formato `DD/MM/AAAA`;
 - Opções de menu precisam existir;
 - Orçamento e número de convidados devem ser positivos.
 

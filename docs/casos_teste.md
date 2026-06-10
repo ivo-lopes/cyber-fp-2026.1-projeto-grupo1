@@ -106,3 +106,34 @@ Passos:
 
 Resultado esperado:
 - O sistema mostra um nome formado com dados de `data/nomes_eventos.csv`.
+
+## 11. Testar entradas inválidas
+
+Passos:
+- Digitar letras em campos numéricos.
+- Deixar campos obrigatórios vazios.
+- Digitar data fora do formato `DD/MM/AAAA`.
+
+Resultado esperado:
+- O sistema mostra uma mensagem simples e pede o valor novamente.
+
+## 12. Testar cancelamento
+
+Passos:
+- Entrar em um submenu e escolher uma função de cadastro, edição ou exclusão.
+- Digitar `0` quando a pergunta permitir cancelar.
+- Pressionar `Ctrl+C` dentro de um submenu.
+- Pressionar `Ctrl+C` no menu principal.
+
+Resultado esperado:
+- O `0` cancela a operação quando estiver disponível.
+- `Ctrl+C` em submenu volta para o menu principal.
+- `Ctrl+C` no menu principal encerra o programa.
+
+## 13. Testar resumo geral
+
+Passos:
+- Escolher `Ver resumo geral`.
+
+Resultado esperado:
+- O sistema mostra totais de eventos, tarefas, orçamento e próximo evento quando existir.

@@ -1,4 +1,5 @@
 from app.armazenamento import ler_csv
+from app.validacoes import pedir_inteiro_positivo_cancelavel, pedir_texto_cancelavel
 
 
 CAMINHO_SUGESTOES = "data/sugestoes.csv"
@@ -59,23 +60,17 @@ def exibir_categoria_sugestao(titulo, valor):
 
 
 def exibir_sugestoes_evento():
-    tipo_evento = input("Tipo do evento: ").strip()
-    convidados = input("Número de convidados: ").strip()
+    tipo_evento = pedir_texto_cancelavel("Tipo do evento ou 0 para cancelar: ")
 
-    if tipo_evento == "":
-        print("\nTipo do evento é obrigatório.")
-        return None
+    if tipo_evento == None:
+        print("\nConsulta cancelada.")
+        return
 
-    try:
-        num_convidados = int(convidados)
+    num_convidados = pedir_inteiro_positivo_cancelavel("Número de convidados ou 0 para cancelar: ")
 
-        if num_convidados <= 0:
-            print("\nNúmero de convidados deve ser maior que zero.")
-            return None
-
-    except ValueError:
-        print("\nNúmero de convidados inválido.")
-        return None
+    if num_convidados == None:
+        print("\nConsulta cancelada.")
+        return
 
     sugestao = buscar_sugestoes(tipo_evento, num_convidados)
 

@@ -22,7 +22,7 @@ def buscar_proximo_evento(eventos):
 
     for evento in eventos:
         try:
-            data_evento = datetime.strptime(evento["data"], "%Y-%m-%d").date()
+            data_evento = datetime.strptime(evento["data"], "%d/%m/%Y").date()
         except:
             data_evento = None
 
