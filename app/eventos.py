@@ -1,7 +1,15 @@
 from datetime import datetime
 
 from app.armazenamento import ler_csv, escrever_csv, obter_proximo_id
-from app.validacoes import validar_data, validar_numero_positivo, validar_texto_obrigatorio, formatar_moeda
+from app.validacoes import (
+    validar_data,
+    formatar_moeda,
+    pedir_data,
+    pedir_inteiro_positivo,
+    pedir_numero_positivo,
+    pedir_opcao,
+    pedir_texto,
+)
 from app.gerador_nomes import gerar_nome_evento
 from app.util import calcular_dias_restantes
 
@@ -35,66 +43,36 @@ CABECALHO_TAREFAS = [
 
 def cadastrar_evento():
     while True:
-        resposta = input("Deseja gerar um nome automático para o evento? [s/n] ").strip().lower()
+        resposta = pedir_opcao("Deseja gerar um nome automático para o evento? [s/n] ", ["s", "n"])
 
         if resposta == "s":
             while True:
                 nome_sugerido = gerar_nome_evento()
                 print("Nome sugerido:", nome_sugerido)
 
-                usar_nome = input("Deseja usar esse nome? [s/n] ").strip().lower()
+                usar_nome = pedir_opcao("Deseja usar esse nome? [s/n] ", ["s", "n"])
 
                 if usar_nome == "s":
                     nome = nome_sugerido
                     break
 
-                gerar_outro = input("Deseja gerar outro nome? [s/n] ").strip().lower()
+                gerar_outro = pedir_opcao("Deseja gerar outro nome? [s/n] ", ["s", "n"])
 
                 if gerar_outro != "s":
-                    nome = input("Nome do Evento: ").strip()
+                    nome = pedir_texto("Nome do Evento: ")
                     break
 
-            if validar_texto_obrigatorio(nome):
-                break
+            break
 
         elif resposta == "n":
-            nome = input("Nome do Evento: ").strip()
-
-            if validar_texto_obrigatorio(nome):
-                break
-
-        else:
-            print("Opção inválida. Digite s ou n.")
-
-    while True:
-        tipo = input("Tipo do Evento (Aniversário, Casamento, Reunião, etc): ").strip()
-        if validar_texto_obrigatorio(tipo):
+            nome = pedir_texto("Nome do Evento: ")
             break
 
-    while True:
-        data = input("Data do Evento (AAAA-MM-DD): ").strip()
-        if validar_texto_obrigatorio(data) and validar_data(data):
-            break
-        print("Data inválida. Use o formato AAAA-MM-DD.")
-
-    while True:
-        local = input("Local do Evento: ").strip()
-        if validar_texto_obrigatorio(local):
-            break
-
-    while True:
-        orcamento = input("Orçamento Inicial (R$): ").strip()
-        if validar_numero_positivo(orcamento):
-            break
-
-    while True:
-        convidados = input("Número de Convidados: ").strip()
-        try:
-            if int(convidados) > 0:
-                break
-            print("❌ Erro: O número deve ser positivo. Tente novamente.")
-        except ValueError:
-            print("❌ Erro: Entrada inválida! Por favor, insira um número inteiro válido.")
+    tipo = pedir_texto("Tipo do Evento (Aniversário, Casamento, Reunião, etc): ")
+    data = pedir_data("Data do Evento (AAAA-MM-DD): ")
+    local = pedir_texto("Local do Evento: ")
+    orcamento = pedir_numero_positivo("Orçamento Inicial (R$): ")
+    convidados = pedir_inteiro_positivo("Número de Convidados: ")
 
     eventos = ler_csv(CAMINHO_EVENTOS)
     data_atual = datetime.now().strftime("%Y-%m-%d")
@@ -114,7 +92,7 @@ def cadastrar_evento():
 
     eventos.append(novo_evento)
     escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
-    print(f"\n✔️ Pronto! Os dados de '{nome}' foram validados e cadastrados.")
+    print(f"\nPronto! Os dados de '{nome}' foram validados e cadastrados.")
     return novo_evento
 
 

@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from app.armazenamento import ler_csv, escrever_csv
+from app.validacoes import pedir_data, pedir_numero_zero_ou_positivo, pedir_opcao, pedir_texto
 
 
 CAMINHO_EVENTOS = "data/eventos.csv"
@@ -34,7 +35,7 @@ def cadastrar_tarefa():
     tarefas = ler_csv(CAMINHO_TAREFAS)
     eventos = ler_csv(CAMINHO_EVENTOS)
 
-    evento_id = input("ID do evento: ").strip()
+    evento_id = pedir_texto("ID do evento: ")
     evento_encontrado = False
 
     for evento in eventos:
@@ -45,31 +46,11 @@ def cadastrar_tarefa():
         print("\nEvento não encontrado. Cadastre a tarefa em um evento existente.")
         return
 
-    descricao = input("Descrição da tarefa: ").strip()
-    categoria = input("Categoria da tarefa: ").strip()
-
-    if descricao == "" or categoria == "":
-        print("\nDescrição e categoria são obrigatórias.")
-        return
-
-    custo_digitado = input("Custo da tarefa: R$ ").strip().replace(",", ".")
-
-    try:
-        custo = float(custo_digitado)
-        if custo < 0:
-            print("\nO custo não pode ser negativo.")
-            return
-    except:
-        print("\nDigite um número válido para o custo.")
-        return
-
-    prazo = input("Prazo da tarefa (AAAA-MM-DD): ").strip()
-
-    try:
-        datetime.strptime(prazo, "%Y-%m-%d")
-    except:
-        print("\nData inválida. Use o formato AAAA-MM-DD.")
-        return
+    descricao = pedir_texto("Descrição da tarefa: ")
+    categoria = pedir_texto("Categoria da tarefa: ")
+    custo_digitado = pedir_numero_zero_ou_positivo("Custo da tarefa: R$ ")
+    custo = float(custo_digitado)
+    prazo = pedir_data("Prazo da tarefa (AAAA-MM-DD): ")
 
     maior_id = 0
 
@@ -202,7 +183,7 @@ def alterar_status_tarefa():
     print("2. Em andamento")
     print("3. Concluída")
 
-    opcao = input("Escolha o novo status: ").strip()
+    opcao = pedir_opcao("Escolha o novo status: ", ["1", "2", "3"])
 
     if opcao == "1":
         novo_status = "pendente"
@@ -210,10 +191,6 @@ def alterar_status_tarefa():
         novo_status = "em andamento"
     elif opcao == "3":
         novo_status = "concluída"
-    else:
-        print("\nOpção inválida.")
-        return
-
     tarefa_encontrada["status"] = novo_status
     tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
     escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)

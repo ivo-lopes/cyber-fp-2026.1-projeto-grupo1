@@ -1,4 +1,5 @@
 from app.armazenamento import ler_csv
+from app.validacoes import pedir_inteiro_positivo, pedir_texto
 
 
 CAMINHO_SUGESTOES = "data/sugestoes.csv"
@@ -50,8 +51,8 @@ def buscar_sugestoes(tipo_evento, num_convidados):
 
 
 def exibir_sugestoes_evento():
-    tipo_evento = input("Tipo do evento: ").strip()
-    num_convidados = input("Número de convidados: ").strip()
+    tipo_evento = pedir_texto("Tipo do evento: ")
+    num_convidados = pedir_inteiro_positivo("Número de convidados: ")
     sugestao = buscar_sugestoes(tipo_evento, num_convidados)
 
     if sugestao == None:
