@@ -90,6 +90,19 @@ def pedir_texto(mensagem):
         print("Este campo não pode ficar em branco.")
 
 
+def pedir_texto_cancelavel(mensagem):
+    while True:
+        valor = input(mensagem).strip()
+
+        if valor == "0":
+            return None
+
+        if valor != "":
+            return valor
+
+        print("Este campo não pode ficar em branco.")
+
+
 def pedir_numero_positivo(mensagem):
     while True:
         valor = input(mensagem).strip().replace(",", ".")
@@ -143,3 +156,52 @@ def pedir_data(mensagem):
             return valor
 
         print("Data inválida. Use o formato AAAA-MM-DD.")
+
+
+def pedir_data_cancelavel(mensagem):
+    while True:
+        valor = input(mensagem).strip()
+
+        if valor == "0":
+            return None
+
+        if validar_data(valor):
+            return valor
+
+        print("Data inválida. Use o formato AAAA-MM-DD.")
+
+
+def pedir_numero_positivo_cancelavel(mensagem):
+    while True:
+        valor = input(mensagem).strip().replace(",", ".")
+
+        if valor == "0":
+            return None
+
+        try:
+            numero = float(valor)
+
+            if numero > 0:
+                return valor
+
+            print("Digite um número maior que zero.")
+        except ValueError:
+            print("Valor inválido. Digite um número.")
+
+
+def pedir_inteiro_positivo_cancelavel(mensagem):
+    while True:
+        valor = input(mensagem).strip()
+
+        if valor == "0":
+            return None
+
+        try:
+            numero = int(valor)
+
+            if numero > 0:
+                return valor
+
+            print("Digite um número maior que zero.")
+        except ValueError:
+            print("Valor inválido. Digite um número inteiro.")
