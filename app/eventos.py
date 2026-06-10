@@ -72,10 +72,10 @@ def cadastrar_evento():
             break
 
     while True:
-        data = input("Data do Evento (AAAA-MM-DD): ").strip()
+        data = input("Data do Evento (DD/MM/AAAA): ").strip()
         if validar_texto_obrigatorio(data) and validar_data(data):
             break
-        print("Data inválida. Use o formato AAAA-MM-DD.")
+        print("Data inválida. Use o formato DD/MM/AAAA.")
 
     while True:
         local = input("Local do Evento: ").strip()
@@ -97,7 +97,7 @@ def cadastrar_evento():
             print("Entrada inválida! Por favor, insira um número inteiro válido.")
 
     eventos = ler_csv(CAMINHO_EVENTOS)
-    data_atual = datetime.now().strftime("%Y-%m-%d")
+    data_atual = datetime.now().strftime("%d/%m/%Y")
 
     novo_evento = {
         "id": str(obter_proximo_id(eventos)),
@@ -207,7 +207,7 @@ def pedir_data_opcional(valor_atual):
         if validar_data(nova_data):
             return nova_data
 
-        print("Data inválida. Use o formato AAAA-MM-DD.")
+        print("Data inválida. Use o formato DD/MM/AAAA.")
 
 
 def pedir_numero_opcional(nome_campo, valor_atual):
