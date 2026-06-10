@@ -4,11 +4,11 @@ from app.armazenamento import ler_csv, escrever_csv, obter_proximo_id
 from app.validacoes import (
     validar_data,
     formatar_moeda,
-    pedir_data,
-    pedir_inteiro_positivo,
-    pedir_numero_positivo,
+    pedir_data_cancelavel,
+    pedir_inteiro_positivo_cancelavel,
+    pedir_numero_positivo_cancelavel,
     pedir_opcao,
-    pedir_texto,
+    pedir_texto_cancelavel,
 )
 from app.gerador_nomes import gerar_nome_evento
 from app.util import calcular_dias_restantes
@@ -43,36 +43,82 @@ CABECALHO_TAREFAS = [
 
 def cadastrar_evento():
     while True:
-        resposta = pedir_opcao("Deseja gerar um nome automático para o evento? [s/n] ", ["s", "n"])
+        resposta = pedir_opcao("Deseja gerar um nome automático para o evento? [s/n] ou 0 para cancelar: ", ["s", "n", "0"])
+
+        if resposta == "0":
+            print("\nCadastro cancelado.")
+            return
 
         if resposta == "s":
             while True:
                 nome_sugerido = gerar_nome_evento()
                 print("Nome sugerido:", nome_sugerido)
 
-                usar_nome = pedir_opcao("Deseja usar esse nome? [s/n] ", ["s", "n"])
+                usar_nome = pedir_opcao("Deseja usar esse nome? [s/n] ou 0 para cancelar: ", ["s", "n", "0"])
+
+                if usar_nome == "0":
+                    print("\nCadastro cancelado.")
+                    return
 
                 if usar_nome == "s":
                     nome = nome_sugerido
                     break
 
-                gerar_outro = pedir_opcao("Deseja gerar outro nome? [s/n] ", ["s", "n"])
+                gerar_outro = pedir_opcao("Deseja gerar outro nome? [s/n] ou 0 para cancelar: ", ["s", "n", "0"])
+
+                if gerar_outro == "0":
+                    print("\nCadastro cancelado.")
+                    return
 
                 if gerar_outro != "s":
-                    nome = pedir_texto("Nome do Evento: ")
+                    nome = pedir_texto_cancelavel("Nome do Evento ou 0 para cancelar: ")
+
+                    if nome == None:
+                        print("\nCadastro cancelado.")
+                        return
+
                     break
 
             break
 
         elif resposta == "n":
-            nome = pedir_texto("Nome do Evento: ")
+            nome = pedir_texto_cancelavel("Nome do Evento ou 0 para cancelar: ")
+
+            if nome == None:
+                print("\nCadastro cancelado.")
+                return
+
             break
 
-    tipo = pedir_texto("Tipo do Evento (Aniversário, Casamento, Reunião, etc): ")
-    data = pedir_data("Data do Evento (AAAA-MM-DD): ")
-    local = pedir_texto("Local do Evento: ")
-    orcamento = pedir_numero_positivo("Orçamento Inicial (R$): ")
-    convidados = pedir_inteiro_positivo("Número de Convidados: ")
+    tipo = pedir_texto_cancelavel("Tipo do Evento (Aniversário, Casamento, Reunião, etc) ou 0 para cancelar: ")
+
+    if tipo == None:
+        print("\nCadastro cancelado.")
+        return
+
+    data = pedir_data_cancelavel("Data do Evento (AAAA-MM-DD) ou 0 para cancelar: ")
+
+    if data == None:
+        print("\nCadastro cancelado.")
+        return
+
+    local = pedir_texto_cancelavel("Local do Evento ou 0 para cancelar: ")
+
+    if local == None:
+        print("\nCadastro cancelado.")
+        return
+
+    orcamento = pedir_numero_positivo_cancelavel("Orçamento Inicial (R$) ou 0 para cancelar: ")
+
+    if orcamento == None:
+        print("\nCadastro cancelado.")
+        return
+
+    convidados = pedir_inteiro_positivo_cancelavel("Número de Convidados ou 0 para cancelar: ")
+
+    if convidados == None:
+        print("\nCadastro cancelado.")
+        return
 
     eventos = ler_csv(CAMINHO_EVENTOS)
     data_atual = datetime.now().strftime("%Y-%m-%d")
@@ -125,7 +171,12 @@ def visualizar_evento():
 
     listar_eventos()
 
-    evento_id = input("\nDigite o ID do evento que deseja visualizar: ").strip()
+    evento_id = pedir_texto_cancelavel("\nDigite o ID do evento que deseja visualizar ou 0 para cancelar: ")
+
+    if evento_id == None:
+        print("\nConsulta cancelada.")
+        return
+
     evento = buscar_evento_por_id(evento_id)
 
     if evento == None:
@@ -231,7 +282,12 @@ def editar_evento():
         print("\nNenhum evento cadastrado.")
         return
 
-    evento_id = input("ID do evento: ").strip()
+    evento_id = pedir_texto_cancelavel("ID do evento ou 0 para cancelar: ")
+
+    if evento_id == None:
+        print("\nEdição cancelada.")
+        return
+
     evento_encontrado = None
 
     for evento in eventos:
@@ -276,7 +332,12 @@ def excluir_evento():
         print("\nNenhum evento cadastrado.")
         return
 
-    evento_id = input("ID do evento: ").strip()
+    evento_id = pedir_texto_cancelavel("ID do evento ou 0 para cancelar: ")
+
+    if evento_id == None:
+        print("\nExclusão cancelada.")
+        return
+
     evento_encontrado = buscar_evento_por_id(evento_id)
 
     if evento_encontrado == None:
@@ -292,7 +353,7 @@ def excluir_evento():
 
     if len(tarefas_vinculadas) > 0:
         print("\nEste evento possui tarefas cadastradas.")
-        resposta = input("Deseja excluir o evento e todas as tarefas vinculadas? [s/n] ").strip().lower()
+        resposta = pedir_opcao("Deseja excluir o evento e todas as tarefas vinculadas? [s/n] ou 0 para cancelar: ", ["s", "n", "0"])
 
         if resposta != "s":
             print("\nExclusão cancelada.")
@@ -306,7 +367,7 @@ def excluir_evento():
 
         escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, novas_tarefas)
     else:
-        resposta = input("Deseja excluir este evento? [s/n] ").strip().lower()
+        resposta = pedir_opcao("Deseja excluir este evento? [s/n] ou 0 para cancelar: ", ["s", "n", "0"])
 
         if resposta != "s":
             print("\nExclusão cancelada.")
