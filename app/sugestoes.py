@@ -6,6 +6,9 @@ CAMINHO_SUGESTOES = "data/sugestoes.csv"
 
 
 def formatar_lista_sugestoes(valor):
+    if valor == None:
+        return []
+
     itens = valor.split("|")
     lista_formatada = []
 
@@ -19,7 +22,7 @@ def formatar_lista_sugestoes(valor):
 
 
 def normalizar_tipo_evento(valor):
-    valor = valor.strip().lower()
+    valor = str(valor).strip().lower()
     valor = valor.replace("á", "a").replace("à", "a").replace("ã", "a").replace("â", "a")
     valor = valor.replace("é", "e").replace("ê", "e")
     valor = valor.replace("í", "i")
@@ -34,19 +37,24 @@ def buscar_sugestoes(tipo_evento, num_convidados):
     sugestao_generica = None
     tipo_pesquisado = normalizar_tipo_evento(tipo_evento)
 
+    try:
+        convidados = int(num_convidados)
+    except:
+        return None
+
     for sugestao in sugestoes:
-        tipo_csv = normalizar_tipo_evento(sugestao["tipo_evento"])
+        tipo_csv = normalizar_tipo_evento(sugestao.get("tipo_evento", ""))
 
         try:
-            minimo = int(sugestao["min_convidados"])
-            maximo = int(sugestao["max_convidados"])
+            minimo = int(sugestao.get("min_convidados", "0"))
+            maximo = int(sugestao.get("max_convidados", "0"))
         except:
             continue
 
         if tipo_csv == "generico":
             sugestao_generica = sugestao
 
-        if tipo_csv == tipo_pesquisado and minimo <= num_convidados <= maximo:
+        if tipo_csv == tipo_pesquisado and minimo <= convidados <= maximo:
             return sugestao
 
     return sugestao_generica
@@ -55,7 +63,13 @@ def buscar_sugestoes(tipo_evento, num_convidados):
 def exibir_categoria_sugestao(titulo, valor):
     print(f"\n{titulo}:")
 
-    for item in formatar_lista_sugestoes(valor):
+    itens = formatar_lista_sugestoes(valor)
+
+    if len(itens) == 0:
+        print("- sem sugestão cadastrada")
+        return
+
+    for item in itens:
         print(f"- {item}")
 
 
@@ -79,9 +93,9 @@ def exibir_sugestoes_evento():
         return None
 
     print(f"\nSugestões para {tipo_evento} com {num_convidados} convidados:")
-    exibir_categoria_sugestao("Fornecedores", sugestao["fornecedores"])
-    exibir_categoria_sugestao("Decoração", sugestao["decoracao"])
-    exibir_categoria_sugestao("Cardápio", sugestao["cardapio"])
-    exibir_categoria_sugestao("Atividades", sugestao["atividades"])
+    exibir_categoria_sugestao("Fornecedores", sugestao.get("fornecedores", ""))
+    exibir_categoria_sugestao("Decoração", sugestao.get("decoracao", ""))
+    exibir_categoria_sugestao("Cardápio", sugestao.get("cardapio", ""))
+    exibir_categoria_sugestao("Atividades", sugestao.get("atividades", ""))
 
     return sugestao
