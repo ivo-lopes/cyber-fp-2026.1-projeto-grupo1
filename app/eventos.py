@@ -97,7 +97,7 @@ def cadastrar_evento():
             print("Entrada inválida! Por favor, insira um número inteiro válido.")
 
     eventos = ler_csv(CAMINHO_EVENTOS)
-    data_atual = datetime.now().strftime("%Y-%m-%d")
+    data_atual = datetime.now().strftime("%d/%m/%Y")
 
     novo_evento = {
         "id": str(obter_proximo_id(eventos)),
