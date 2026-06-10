@@ -25,7 +25,7 @@ def validar_opcao(opcao, opcoes_validas):
 def validar_data(valor):
     
     try:
-        datetime.strptime(valor, "%Y-%m-%d")
+        datetime.strptime(valor, "%d/%m/%Y")
         return True
     except:
         return False

@@ -20,7 +20,7 @@ def calcular_dias_restantes(data_evento):
         if data_evento == "":
             return 0
 
-        data = datetime.strptime(data_evento, "%Y-%m-%d").date()
+        data = datetime.strptime(data_evento, "%d/%m/%Y").date()
         hoje = datetime.now().date()
         diferenca = data - hoje
         return diferenca.days
