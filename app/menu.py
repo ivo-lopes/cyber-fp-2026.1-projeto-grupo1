@@ -1,7 +1,7 @@
 from app.eventos import cadastrar_evento, editar_evento, excluir_evento, listar_eventos, visualizar_evento
 from app.sugestoes import exibir_sugestoes_evento
 from app.tarefas import cadastrar_tarefa, listar_tarefas_por_evento, editar_tarefa, alterar_status_tarefa, excluir_tarefa
-from app.util import limpar_tela
+from app.util import limpar_tela, mostrar_aviso, mostrar_erro, mostrar_titulo
 from app.validacoes import validar_opcao
 from app.gerador_nomes import gerar_nome_evento
 
@@ -11,14 +11,14 @@ def pausar():
 
 
 def mostrar_funcionalidade_pendente():
-    print("\nFuncionalidade ainda não implementada.")
+    mostrar_aviso("\nFuncionalidade ainda não implementada.")
     pausar()
 
 
 def mostrar_menu():
     while True:
         limpar_tela()
-        print("========== ORGANIZA FESTA ==========")
+        mostrar_titulo("ORGANIZA FESTA")
         print()
         print("1. Gerenciar eventos")
         print("2. Gerenciar tarefas de um evento")
@@ -32,10 +32,10 @@ def mostrar_menu():
         limpar_tela()
 
         if not validar_opcao(opcao, ["0", "1", "2", "3", "4", "5"]):
-            print("\nOpção inválida.")
+            mostrar_erro("\nOpção inválida.")
             pausar()
         elif opcao == "0":
-            print("\nSaindo do Organiza Festa...")
+            mostrar_aviso("\nSaindo do Organiza Festa...")
             break
         elif opcao == "1":
             mostrar_menu_eventos()
@@ -56,7 +56,7 @@ def mostrar_menu():
 def mostrar_menu_tarefas():
     while True:
         limpar_tela()
-        print("========== TAREFAS ==========")
+        mostrar_titulo("TAREFAS")
         print()
         print("1. Cadastrar tarefa")
         print("2. Listar tarefas de um evento")
@@ -70,7 +70,7 @@ def mostrar_menu_tarefas():
         limpar_tela()
 
         if not validar_opcao(opcao, ["0", "1", "2", "3", "4", "5"]):
-            print("\nOpção inválida.")
+            mostrar_erro("\nOpção inválida.")
             pausar()
         elif opcao == "0":
             break
@@ -96,7 +96,7 @@ def mostrar_menu_tarefas():
 def mostrar_menu_eventos():
     while True:
         limpar_tela()
-        print("========== EVENTOS ==========")
+        mostrar_titulo("EVENTOS")
         print()
         print("1. Cadastrar evento")
         print("2. Listar eventos")
@@ -110,7 +110,7 @@ def mostrar_menu_eventos():
         limpar_tela()
 
         if not validar_opcao(opcao, ["0", "1", "2", "3", "4", "5"]):
-            print("\nOpção inválida.")
+            mostrar_erro("\nOpção inválida.")
             pausar()
         elif opcao == "0":
             break
