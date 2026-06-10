@@ -12,6 +12,15 @@ O Organiza Festa é um sistema simples de terminal para ajudar na organização 
 - Recalcular o orçamento disponível com base no custo das tarefas.
 - Ver sugestões personalizadas ou uma sugestão genérica.
 - Gerar nomes automáticos para eventos.
+- Ver um resumo geral de eventos, tarefas e orçamento.
+
+## Melhorias de uso
+
+- O terminal usa cores simples para títulos, avisos e erros.
+- No menu principal, `Ctrl+C` encerra o programa.
+- Nos submenus e funções, `Ctrl+C` cancela a operação e volta para o menu anterior.
+- Algumas perguntas aceitam `0` para cancelar.
+- Entradas inválidas mostram mensagens simples e pedem o valor novamente.
 
 ## Como executar
 
@@ -33,6 +42,7 @@ python3 main.py
 - `app/tarefas.py`: funções de tarefas e orçamento.
 - `app/sugestoes.py`: busca e mostra sugestões.
 - `app/gerador_nomes.py`: monta nomes automáticos.
+- `app/resumo.py`: mostra um resumo geral do sistema.
 - `app/armazenamento.py`: leitura e escrita simples dos CSVs.
 - `app/validacoes.py`: validações básicas.
 - `app/util.py`: funções auxiliares.

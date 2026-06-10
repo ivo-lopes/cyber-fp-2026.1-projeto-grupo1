@@ -33,6 +33,12 @@ Ao executar o programa, o usuário verá o menu principal:
 
 Digite o número da opção desejada e pressione Enter.
 
+O sistema usa cores simples no terminal para destacar títulos, avisos e mensagens de erro.
+
+Se pressionar `Ctrl+C` no menu principal, o programa será encerrado. Se pressionar `Ctrl+C` dentro de um submenu ou de uma função, a operação será cancelada e o sistema voltará para o menu anterior.
+
+Em algumas perguntas, como ID de evento, ID de tarefa ou confirmação de exclusão, é possível digitar `0` para cancelar.
+
 ## 4. Gerenciar Eventos
 
 Ao escolher a opção `1. Gerenciar eventos`, o sistema abre o menu de eventos:
@@ -238,7 +244,17 @@ O sistema pede o tipo do evento e o número de convidados.
 
 Se encontrar uma sugestão específica no arquivo `data/sugestoes.csv`, ela será exibida. Se não encontrar, o sistema usa a sugestão genérica cadastrada no arquivo.
 
-## 13. Validações
+## 13. Resumo Geral
+
+Para ver um resumo, escolha no menu principal:
+
+```text
+5. Ver resumo geral
+```
+
+O sistema mostra a quantidade de eventos e tarefas, o status das tarefas, os totais de orçamento e o próximo evento futuro, quando existir.
+
+## 14. Validações
 
 O sistema possui validações para evitar erros durante o uso.
 
@@ -251,7 +267,7 @@ Alguns exemplos:
 
 Se o usuário digitar uma informação inválida, o sistema mostra uma mensagem de erro e pede o dado novamente.
 
-## 14. Arquivos De Dados
+## 15. Arquivos De Dados
 
 O sistema usa arquivos CSV dentro da pasta `data`.
 
@@ -262,14 +278,13 @@ Principais arquivos:
 - `nomes_eventos.csv`: armazena as partes usadas no gerador de nomes;
 - `sugestoes.csv`: armazena sugestões personalizadas por tipo de evento.
 
-## 15. Restrições Conhecidas
+## 16. Restrições Conhecidas
 
-- A opção de resumo geral ainda mostra mensagem de funcionalidade não implementada.
 - O arquivo de sugestões possui uma sugestão genérica, mas ainda precisa de mais sugestões específicas para testes completos.
 - O projeto usa CSV simples com `;` e não usa a biblioteca `csv`.
 - O sistema foi feito para ser usado pelo terminal.
 
-## 16. Encerrando O Sistema
+## 17. Encerrando O Sistema
 
 Para sair do sistema, volte ao menu principal e escolha:
 
