@@ -63,12 +63,12 @@ def cadastrar_tarefa():
         print("\nDigite um número válido para o custo.")
         return
 
-    prazo = input("Prazo da tarefa (AAAA-MM-DD): ").strip()
+    prazo = input("Prazo da tarefa (DD/MM/AAAA): ").strip()
 
     try:
-        datetime.strptime(prazo, "%Y-%m-%d")
+        datetime.strptime(prazo, "%d/%m/%Y")
     except:
-        print("\nData inválida. Use o formato AAAA-MM-DD.")
+        print("\nData inválida. Use o formato DD/MM/AAAA.")
         return
 
     maior_id = 0
@@ -81,7 +81,7 @@ def cadastrar_tarefa():
         except:
             pass
 
-    agora = datetime.now().strftime("%Y-%m-%d")
+    agora = datetime.now().strftime("%d/%m/%Y")
     nova_tarefa = {
         "id": str(maior_id + 1),
         "evento_id": str(evento_id),
@@ -167,13 +167,13 @@ def editar_tarefa():
 
     if novo_prazo != "":
         try:
-            datetime.strptime(novo_prazo, "%Y-%m-%d")
+            datetime.strptime(novo_prazo, "%d/%m/%Y")
         except:
-            print("\nData inválida. Use o formato AAAA-MM-DD.")
+            print("\nData inválida. Use o formato DD/MM/AAAA.")
             return
         tarefa_encontrada["prazo"] = novo_prazo
 
-    tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
+    tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%d/%m/%Y")
     escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)
     atualizar_orcamento_evento(tarefa_encontrada["evento_id"])
     print("\nTarefa editada com sucesso.")
@@ -215,7 +215,7 @@ def alterar_status_tarefa():
         return
 
     tarefa_encontrada["status"] = novo_status
-    tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
+    tarefa_encontrada["atualizado_em"] = datetime.now().strftime("%d/%m/%Y")
     escrever_csv(CAMINHO_TAREFAS, CABECALHO_TAREFAS, tarefas)
     print("\nStatus alterado com sucesso.")
     
@@ -259,7 +259,7 @@ def atualizar_orcamento_evento(evento_id):
             evento["orcamento_disponivel"] = str(orcamento_inicial - total_tarefas)
 
             if "atualizado_em" in evento:
-                evento["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
+                evento["atualizado_em"] = datetime.now().strftime("%d/%m/%Y")
 
             encontrou = True
 

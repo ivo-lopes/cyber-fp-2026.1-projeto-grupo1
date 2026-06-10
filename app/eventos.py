@@ -282,7 +282,7 @@ def editar_evento():
         "Número de convidados",
         evento_encontrado["num_convidados"],
     )
-    evento_encontrado["atualizado_em"] = datetime.now().strftime("%Y-%m-%d")
+    evento_encontrado["atualizado_em"] = datetime.now().strftime("%d/%m/%Y")
 
     escrever_csv(CAMINHO_EVENTOS, CABECALHO_EVENTOS, eventos)
     from app.tarefas import atualizar_orcamento_evento
