@@ -130,10 +130,29 @@ def listar_tarefas_por_evento(evento_id):
 
 def editar_tarefa():
     tarefas = ler_csv(CAMINHO_TAREFAS)
+    eventos = ler_csv(CAMINHO_EVENTOS)
 
     if len(tarefas) == 0:
         print("\nNenhuma tarefa cadastrada.")
         return
+
+    evento_id = pedir_texto_cancelavel("ID do evento da tarefa ou 0 para cancelar: ")
+
+    if evento_id == None:
+        print("\nEdição cancelada.")
+        return
+
+    evento_encontrado = False
+
+    for evento in eventos:
+        if evento["id"] == evento_id:
+            evento_encontrado = True
+
+    if not evento_encontrado:
+        print("\nEvento não encontrado.")
+        return
+
+    listar_tarefas_por_evento(evento_id)
 
     tarefa_id = pedir_texto_cancelavel("ID da tarefa que deseja editar ou 0 para cancelar: ")
 
@@ -144,11 +163,11 @@ def editar_tarefa():
     tarefa_encontrada = None
 
     for tarefa in tarefas:
-        if tarefa["id"] == tarefa_id:
+        if tarefa["id"] == tarefa_id and tarefa["evento_id"] == evento_id:
             tarefa_encontrada = tarefa
 
     if tarefa_encontrada == None:
-        print("\nTarefa não encontrada.")
+        print("\nTarefa não encontrada para este evento.")
         return
 
     print("\nDeixe em branco para manter o valor atual.")
@@ -191,10 +210,29 @@ def editar_tarefa():
 
 def alterar_status_tarefa():
     tarefas = ler_csv(CAMINHO_TAREFAS)
+    eventos = ler_csv(CAMINHO_EVENTOS)
 
     if len(tarefas) == 0:
         print("\nNenhuma tarefa cadastrada.")
         return
+
+    evento_id = pedir_texto_cancelavel("ID do evento da tarefa ou 0 para cancelar: ")
+
+    if evento_id == None:
+        print("\nAlteração cancelada.")
+        return
+
+    evento_encontrado = False
+
+    for evento in eventos:
+        if evento["id"] == evento_id:
+            evento_encontrado = True
+
+    if not evento_encontrado:
+        print("\nEvento não encontrado.")
+        return
+
+    listar_tarefas_por_evento(evento_id)
 
     tarefa_id = pedir_texto_cancelavel("ID da tarefa ou 0 para cancelar: ")
 
@@ -205,11 +243,11 @@ def alterar_status_tarefa():
     tarefa_encontrada = None
 
     for tarefa in tarefas:
-        if tarefa["id"] == tarefa_id:
+        if tarefa["id"] == tarefa_id and tarefa["evento_id"] == evento_id:
             tarefa_encontrada = tarefa
 
     if tarefa_encontrada == None:
-        print("\nTarefa não encontrada.")
+        print("\nTarefa não encontrada para este evento.")
         return
 
     print("\nStatus disponíveis:")
